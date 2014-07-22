@@ -1,7 +1,6 @@
 # Feature: Working with subject data
-==================================
 
-Scenario
+## Scenario
 --------
 
 > *As an integrating system*
@@ -14,7 +13,7 @@ Scenario
 
 [best practices \<update-subject-data-best-practices\>]
 
-Assumptions
+## Assumptions
 -----------
 
 To succeed, I have satisfied these pre-requisites:
@@ -48,13 +47,11 @@ My header contains the following elements:
 
 URI Parameters:
 
-  |------------------|---------------------|----------------------------------
-  | Parameter         | Description        |    Mandatory Notes
-                                            ?       
-  |------------------ |---------------------- |--------- ---------------------
-  {host}             The host name          Yes       usually
-                                                      "{client}.mdsol.com"
-  -------------------------------------------------------------------------
+  |------------------|---------------------|----------------------------------|
+  | Parameter         | Description        |    Mandatory Notes?              |
+  |------------------ |---------------------- |--------- ---------------------|
+  | {host}             | The host name         | Yes usually "{client}.mdsol.com" |
+  |------------------|------------------------|-------------------------------|
 
 Example:
 
@@ -73,7 +70,13 @@ My ODM document is constructed as follows [^1]:
 
 ``` 
 xml      
-<?xml version="1.0" ?>     <ODM  >        <!-- "Field location Attributes" -->        <ClinicalData StudyOID="{study-oid}" >         <SubjectData SubjectKey="{subject-key}" TransactionType="Update" >           <SiteRef LocationOID="{location-oid}" />           <StudyEventData StudyEventOID="{folder-oid}" StudyEventRepeatKey="{folder-repeat-key}" TransactionType="Update" >             <FormData FormOID="{form-oid}" FormRepeatKey="{form-repeat-key}" TransactionType="Update" >               <ItemGroupData ItemGroupOID="{record-oid}" ItemGroupRepeatKey="{item-group-repeat-key}" TransactionType="Update" >                  <!-- "Field level Attributes (with variations below)" -->                  <ItemData ItemOID="{field-oid}" Value="{data}" />                </ItemGroupData>             </FormData>           </StudyEventData>         </SubjectData>       </ClinicalData>      </ODM>
+<?xml version="1.0" ?>     
+<ODM  >        
+<!-- "Field location Attributes" -->        
+<ClinicalData StudyOID="{study-oid}" >         
+<SubjectData SubjectKey="{subject-key}" TransactionType="Update" >           
+<SiteRef LocationOID="{location-oid}" />           
+<StudyEventData StudyEventOID="{folder-oid}" StudyEventRepeatKey="{folder-repeat-key}" TransactionType="Update" >             <FormData FormOID="{form-oid}" FormRepeatKey="{form-repeat-key}" TransactionType="Update" >               <ItemGroupData ItemGroupOID="{record-oid}" ItemGroupRepeatKey="{item-group-repeat-key}" TransactionType="Update" >                  <!-- "Field level Attributes (with variations below)" -->                  <ItemData ItemOID="{field-oid}" Value="{data}" />                </ItemGroupData>             </FormData>           </StudyEventData>         </SubjectData>       </ClinicalData>      </ODM>
 ```
 
 > **note**
