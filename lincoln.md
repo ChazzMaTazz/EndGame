@@ -1,7 +1,6 @@
-# Feature: Working with subject data
+# @Title Working with subject data
 
 ## Scenario
---------
 
 > *As an integrating system*
 >
