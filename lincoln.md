@@ -1,19 +1,27 @@
 # @Title Working with subject data
 
+
 ## Scenario
+
 
 > *As an integrating system*
 >
+
 > *I want to update my subjects data*
 >
+
 > *So that I can manage my clinical data*
+
 
 [examples \<examples-post-clinical-data\>]
 
+
 [best practices \<update-subject-data-best-practices\>]
+
 
 ## Assumptions
 -----------
+
 
 To succeed, I have satisfied these pre-requisites:
 
