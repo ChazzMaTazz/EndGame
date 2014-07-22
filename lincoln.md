@@ -71,7 +71,10 @@ valid ODM 1.3 transactional document \<valid-odm-transactional-document\>
 
 My ODM document is constructed as follows [^1]:
 
-`` ` xml      <?xml version="1.0" ?>     <ODM  >        <!-- "Field location Attributes" -->        <ClinicalData StudyOID="{study-oid}" >         <SubjectData SubjectKey="{subject-key}" TransactionType="Update" >           <SiteRef LocationOID="{location-oid}" />           <StudyEventData StudyEventOID="{folder-oid}" StudyEventRepeatKey="{folder-repeat-key}" TransactionType="Update" >             <FormData FormOID="{form-oid}" FormRepeatKey="{form-repeat-key}" TransactionType="Update" >               <ItemGroupData ItemGroupOID="{record-oid}" ItemGroupRepeatKey="{item-group-repeat-key}" TransactionType="Update" >                  <!-- "Field level Attributes (with variations below)" -->                  <ItemData ItemOID="{field-oid}" Value="{data}" />                </ItemGroupData>             </FormData>           </StudyEventData>         </SubjectData>       </ClinicalData>      </ODM> ``\`
+``` 
+xml      
+<?xml version="1.0" ?>     <ODM  >        <!-- "Field location Attributes" -->        <ClinicalData StudyOID="{study-oid}" >         <SubjectData SubjectKey="{subject-key}" TransactionType="Update" >           <SiteRef LocationOID="{location-oid}" />           <StudyEventData StudyEventOID="{folder-oid}" StudyEventRepeatKey="{folder-repeat-key}" TransactionType="Update" >             <FormData FormOID="{form-oid}" FormRepeatKey="{form-repeat-key}" TransactionType="Update" >               <ItemGroupData ItemGroupOID="{record-oid}" ItemGroupRepeatKey="{item-group-repeat-key}" TransactionType="Update" >                  <!-- "Field level Attributes (with variations below)" -->                  <ItemData ItemOID="{field-oid}" Value="{data}" />                </ItemGroupData>             </FormData>           </StudyEventData>         </SubjectData>       </ClinicalData>      </ODM>
+```
 
 > **note**
 >
