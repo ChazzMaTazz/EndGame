@@ -48,10 +48,10 @@ My header contains the following elements:
 
 URI Parameters:
 
-  -------------------------------------------------------------------------
-  Parameter          Description            Mandatory Notes
-                                            ?         
-  ------------------ ---------------------- --------- ---------------------
+  |------------------|---------------------|----------------------------------
+  | Parameter         | Description        |    Mandatory Notes
+                                            ?       
+  |------------------ |---------------------- |--------- ---------------------
   {host}             The host name          Yes       usually
                                                       "{client}.mdsol.com"
   -------------------------------------------------------------------------
@@ -210,7 +210,9 @@ Header:
 
 Body:
 
-`` ` xml     <Response ReferenceNumber="fa63d085-629a-419e-a19d-21d6fb2bc93b"     InboundODMFileOID="InputODM.xml"     IsTransactionSuccessful="1"     SuccessStatistics="Rave objects touched: Subjects=1; Folders=0; Forms=0; Fields=1; LogLines=0"     NewRecords=""     SubjectNumberInStudy="1"     SubjectNumberInStudySite="1">    </Response> ``\`
+```
+xml     <Response ReferenceNumber="fa63d085-629a-419e-a19d-21d6fb2bc93b"     InboundODMFileOID="InputODM.xml"     IsTransactionSuccessful="1"     SuccessStatistics="Rave objects touched: Subjects=1; Folders=0; Forms=0; Fields=1; LogLines=0"     NewRecords=""     SubjectNumberInStudy="1"     SubjectNumberInStudySite="1">    </Response> 
+```
 
 ### Example error response
 
@@ -220,7 +222,8 @@ Header:
 
 Body:
 
-``` {.sourceCode .xml}
+``` 
+xml
 <Response ReferenceNumber="fa63d085-629a-419e-a19d-21d6fb2bc93b"
  InboundODMFileOID="InputODM.xml"
  IsTransactionSuccessful="0"
