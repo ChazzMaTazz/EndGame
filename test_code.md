@@ -67,4 +67,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 ````
+and always ruby turesday
+
+````ruby
+class CacheWarmer
+
+  # Invade euresource to force it to make a call to a specific url
+  # using the same config it uses for regular calls
+  def self.visit(url)
+    Euresource.eureka_client.transmit(:uri => url, headers: {'Cache-Control' => 'no-cache, max-age=0'})
+  end
+
+end
+````
 
