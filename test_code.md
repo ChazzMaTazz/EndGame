@@ -20,7 +20,7 @@ This file exhbits all the traits of
 ````
 It also contain things like the following:
 
-````c++
+````cpp
 #ifndef Babbage_Bridging_Header_h
 #define Babbage_Bridging_Header_h
 
@@ -34,7 +34,7 @@ It also contain things like the following:
 
 and then there's:
 
-```` swift
+````swift
 
 import UIKit
 
