@@ -3,6 +3,7 @@
 Feature: Working with subject data
 ==================================
 
+<!--- 
 Scenario
 --------
 
@@ -16,7 +17,7 @@ Scenario
 
 [:ref:`best practices <update-subject-data-best-practices>`]
 
-
+--->
 Assumptions
 -----------
 
