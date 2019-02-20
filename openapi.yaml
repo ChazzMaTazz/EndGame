@@ -239,19 +239,19 @@ paths:
             Requester unauthorized to create configuration types for the specified client division
             or the specified configuration type UUIDs not found.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - Required `name` parameter was not provided.
-              - Invalid parameter values were provided (e.g. `configuration_type_uuids` is not an array).
-              - Name is not unique within the Client Division or exceeds 100 characters.
-              - Specified Client Division could not be recognized.
+              - Required `name` parameter not provided.
+              - Invalid parameter values provided. For example, `configuration_type_uuids` not an array.
+              - Name is not unique within the client division or exceeds 100 characters.
+              - Specified client division unrecognized.
       parameters:
         - name: configuration_type
-          description: Values used to create the new Configuration Type.
+          description: Values to create the new configuration type.
           in: body
           required: true
           schema:
@@ -274,16 +274,16 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationType'
         '404':
-          description: Configuration Type not recognized or authorization failed.
+          description: Configuration type unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
     post:
       summary: Update a Configuration Type
-      description: Update the `name` or `configuration_type_uuids` for an existing Configuration Type.
+      description: Update the `name` or `configuration_type_uuids` for an existing configuration type.
       operationId: configuration_types.update
       responses:
         '200':
@@ -291,22 +291,22 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationType'
         '404':
-          description: Configuration Type not recognized or authorization failed.
+          description: Configuration type unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - Attempted to change read-only attributes (e.g. `created_at`).
-              - Name is not unique within the Client Division or exceeds 100 characters.
-              - `configuration_type_uuids` cannot include the Configuration Type being updated.
+              - Attempted to change read-only attributes. For example, `created_at`.
+              - Name not unique within the client division or exceeds 100 characters.
+              - `configuration_type_uuids` cannot include the configuration type being updated.
               - `configuration_type_uuids` cannot result in a cycle.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: update_parameters
-          description: Specify new `name` and/or `configuration_type_uuids` values for the Configuration Type.
+          description: New `name` and/or `configuration_type_uuids` values for the configuration type.
           in: body
           required: true
           schema:
@@ -318,13 +318,13 @@ paths:
         '204':
           description: Success.
         '404':
-          description: The Configuration Type was not recognized or authorization failed.
+          description: Configuration type unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
-          description: Cannot delete a Configuration Type with roles used in role assignments.
+          description: Cannot delete a configuration type with roles already in role assignments.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -347,19 +347,19 @@ paths:
             items:
               $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration Type not recognized or authorization failed.
+          description: Configuration type unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '422':
-          description: One or more of the URI query parameters is malformed.
+          description: One or more malformed URI query parameters.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
         - name: configuration_type_uuid
-          description: The universally unique identifier for the Configuration Type.
+          description: The configuration type's universally unique identifier.
           in: path
           required: true
           type: string
@@ -374,17 +374,17 @@ paths:
           required: false
           type: string
         - name: permission
-          description: Operation that must be included in the permissions array for returned configuration type roles.
+          description: Include in the permissions array for any returned configuration type roles.
           in: query
           required: false
           type: string
         - name: tag
-          description: Tag that must be included in the array of tags for the returned configuration type roles.
+          description: Include in the array of tags for any returned configuration type roles.
           in: query
           required: false
           type: string
         - name: standard_role_oid
-          description: Standard Role OID.
+          description: Standard role object identifier.
           in: query
           required: false
           type: string
@@ -397,15 +397,15 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration Type not recognized or authorization failed.
+          description: Configuration type unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - Attempted to set read-only attributes (e.g. `created_at`, `configuration_type_uuid`)
+              - Attempted to set read-only attributes. For example, `created_at` or `configuration_type_uuid`.
               - One or more of the Permissions was not recognized.
               - `name` attribute was not unique or longer than 255 characters.
               - `standard_role_oid` was blank.
