@@ -406,17 +406,17 @@ paths:
           description: |-
             One of the following situations occurred:
               - Attempted to set read-only attributes. For example, `created_at` or `configuration_type_uuid`.
-              - One or more of the Permissions was not recognized.
-              - `name` attribute was not unique or longer than 255 characters.
-              - `standard_role_oid` was blank.
+              - One or more permissions unrecognized.
+              - `name` attribute not unique or longer than 255 characters.
+              - `standard_role_oid` blank.
       parameters:
         - name: configuration_type_uuid
-          description: The universally unique identifier for the Configuration Type.
+          description: The configuration type's universally unique identifier.
           in: path
           required: true
           type: string
         - name: configuration_type_role
-          description: Values used to create the new Configuration Type Role.
+          description: Title of the configuration type role.
           in: body
           required: true
           schema:
@@ -439,15 +439,15 @@ paths:
             items:
               $ref: '#/definitions/ConfigurationTypeRole'
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
         - name: standard_role_oid
-          description: Standard Role OID.
+          description: Standard role object identifier.
           in: query
           required: true
           type: string
