@@ -1,0 +1,2146 @@
+swagger: '2.0'
+info:
+  title: Authorization data for the Medidata Platform
+  description: |-
+    The Authorization process enables Medidata Clinical Cloud (MCC) access control and
+    authorization of MCC resources.
+  contact:
+    name: The Authorization development team
+    email: team04@mdsol.com
+  version: v1.4.3
+basePath: /v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+x-mdsol:
+  docs:
+    ConfigurationTypes:
+      page: Study Administration/Configuration Types
+      overview: |-
+        Customer-defined group of configuration type roles.
+    ConfigurationTypeRoles:
+      page: User Access Management/Configuration Type Roles
+      overview: |-
+        Role with a configurable set of either permissions or other roles.
+        Roles that contain permissions are not directly assigned to an
+        operator. You can directly assign roles with a set of other roles.
+    ConflictingRolesSets:
+      page: User Access Management/Conflicting Roles Sets
+      overview: |-
+        Set of roles that creates a conflict when more than one are assigned
+        to an Operator on a given Operable.
+  servers:
+    - url: https://dalton{stage}.imedidata{region}.{tld}{basePath}
+  eurekaName: dalton
+  slos:
+    defaultSLO:
+      99thPercentile: 100ms
+      requestsPerSecond: 500
+
+paths:
+  /access_control_lists:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    post:
+      summary: Create an Access Control List
+      description: Create an Access Control List made up of Role Assignments for different Protected Resource Types.
+      operationId: access_control_lists.create
+      responses:
+        '202':
+          description: |-
+            The Access Control List job was successfully created. It may take up to 90 minutes to complete processing.
+          schema:
+            $ref: '#/definitions/AccessControlList'
+        '403':
+          description: Requester not authorized to create Access Control Lists for the specified Access Control List.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: Unprocessable entity - `operable_type` is missing or `access_type` is not set to `allow`.
+      parameters:
+        - name: access_control_list
+          description: Values used to create the new Access Control List.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AccessControlListCreateRequest'
+
+  '/access_control_lists/{uuid}':
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get an Access Control List
+      operationId: access_control_lists.show
+      responses:
+        '200':
+          description: |-
+            The Access Control List was found successfully and its status and a link to its contents
+            were returned.
+          schema:
+            $ref: '#/definitions/AccessControlList'
+        '404':
+          description: |-
+            Requester does not have proper permissions or is explicitly prohibited for the Access Control List.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+    delete:
+      summary: Delete an Access Control List
+      operationId: access_control_lists.delete
+      responses:
+        '204':
+          description: The Access Control List was successfully deleted.
+        '404':
+          description: Requester not authorized to delete access control lists or failed to find the specified one.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /attribute_collections:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    post:
+      summary: Create an Attribute Collection
+      operationId: attribute_collections.create
+      responses:
+        '201':
+          description: |-
+            The Attribute Collection was successfully created or found with the specified parameters.
+          schema:
+            $ref: '#/definitions/AttributeCollection'
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Required parameters were not provided.
+              - `attribute_collection_template_oid` did not reference an existing Attribute Collection Template.
+              - `traversal_attributes` did not contain required keys from the associated Attribute Collection Template.
+      parameters:
+        - name: attribute_collection
+          description: Values used to create the new Attribute Collection.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AttributeCollectionCreateRequest'
+
+  '/attribute_collections/{uuid}':
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get an Attribute Collection
+      operationId: attribute_collections.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/AttributeCollection'
+        '404':
+          description: Attribute Collection not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /configuration_types:
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConfigurationTypes'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      x-mdsol:
+        externalPath: idem
+      summary: Get All Configuration Types
+      description: List of configuration types filtered by `parent_uri`.
+      operationId: configuration_types.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ConfigurationType'
+          examples:
+            application/json: |-
+              [
+                {
+                  "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+                  "client_division_uuid": "48196921-5eea-4957-8ee3-4912d480560a",
+                  "parent_uri": "com:mdsol:client_division_schemes:d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+                  "name": "Domestic Cosmetic",
+                  "configuration_type_uuids": ["b2652a67-c587-4f71-a8f2-688ce02c32c8"],
+                  "created_at": "1980-01-01T00:00:00.000Z"
+                },
+                {
+                  "uuid": "9a6927d3-0f0f-4c17-8098-3172d47cee33",
+                  "client_division_uuid": "48196921-5eea-4957-8ee3-4912d480560a",
+                  "parent_uri": "com:mdsol:client_division_schemes:d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+                  "name": "Global Cosmetic",
+                  "configuration_type_uuids": ["e991d87b-d8c9-45d7-b344-77937670ef52"],
+                  "created_at": "1980-01-01T00:00:00.000Z"
+                },
+              ]
+        '404':
+          description: Parent URI not recognized, or requester has no permissions for the resource.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: client_division_uuid
+          in: query
+          required: false
+          type: string
+          description: Deprecated - use `parent_uri` instead.
+          # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
+        - name: parent_uri
+          in: query
+          required: false
+          type: string
+          description: |-
+            Filters Configuration Types associated with resource specified in the form of
+            [MDSOL URI](https://learn.mdsol.com/display/MCCSERVICESprd/Conventions+and+Keywords#ConventionsandKeywords-UniversallyUniqueIdentifiers).
+            client division schemes or apps are the only valid resource types. For example, a valid client division
+            scheme resource type's MDSOL URI looks like
+            `com:mdsol:client_division_schemes:<client_division_scheme_uuid>`. This parameter is required if
+            `client_division_uuid` is not provided.
+    post:
+      summary: Create a New Configuration Type
+      description: Create a new Configuration Type for a particular `parent_uri`.
+      operationId: configuration_types.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationType'
+        '404':
+          description: |-
+            Requester not authorized to create configuration types for the specified Client Division
+            or the specified Configuration Type UUIDs could not be found.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Required `name` parameter was not provided.
+              - Invalid parameter values were provided (e.g. `configuration_type_uuids` is not an array).
+              - Name is not unique within the Client Division or exceeds 100 characters.
+              - Specified Client Division could not be recognized.
+      parameters:
+        - name: configuration_type
+          description: Values used to create the new Configuration Type.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConfigurationTypeCreateRequest'
+
+  '/configuration_types/{uuid}':
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConfigurationTypes'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      x-mdsol:
+        externalPath: idem
+      summary: Get a Configuration Type
+      operationId: configuration_types.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationType'
+        '404':
+          description: Configuration Type not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+    post:
+      summary: Update a Configuration Type
+      description: Update the `name` or `configuration_type_uuids` for an existing Configuration Type.
+      operationId: configuration_types.update
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationType'
+        '404':
+          description: Configuration Type not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Attempted to change read-only attributes (e.g. `created_at`).
+              - Name is not unique within the Client Division or exceeds 100 characters.
+              - `configuration_type_uuids` cannot include the Configuration Type being updated.
+              - `configuration_type_uuids` cannot result in a cycle.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: update_parameters
+          description: Specify new `name` and/or `configuration_type_uuids` values for the Configuration Type.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConfigurationTypeUpdateRequest'
+    delete:
+      summary: Delete a Configuration Type
+      operationId: configuration_types.destroy
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: The Configuration Type was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: Cannot delete a Configuration Type with roles used in role assignments.
+        '415':
+          description: Included Content-Type header is not a supported format.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  '/configuration_types/{configuration_type_uuid}/roles':
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConfigurationTypeRoles'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      x-mdsol:
+        externalPath: idem
+      summary: Get All Configuration Type Roles
+      operationId: configuration_type_roles.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ConfigurationTypeRole'
+        '404':
+          description: Configuration Type not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '422':
+          description: One or more of the URI query parameters is malformed.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: configuration_type_uuid
+          description: The universally unique identifier for the Configuration Type.
+          in: path
+          required: true
+          type: string
+        - name: operator_uri
+          description: Filters configuration type roles assignable by the specific user for the specified operator URI.
+          in: query
+          required: false
+          type: string
+        - name: operable_uri
+          description: Filters configuration type roles assignable by the specific user for the specified operable URI.
+          in: query
+          required: false
+          type: string
+        - name: permission
+          description: Operation that must be included in the permissions array for returned configuration type roles.
+          in: query
+          required: false
+          type: string
+        - name: tag
+          description: Tag that must be included in the array of tags for the returned configuration type roles.
+          in: query
+          required: false
+          type: string
+        - name: standard_role_oid
+          description: Standard Role OID.
+          in: query
+          required: false
+          type: string
+    post:
+      summary: Create a New Configuration Type Role
+      operationId: configuration_type_roles.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationTypeRole'
+        '404':
+          description: Configuration Type not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Attempted to set read-only attributes (e.g. `created_at`, `configuration_type_uuid`)
+              - One or more of the Permissions was not recognized.
+              - `name` attribute was not unique or longer than 255 characters.
+              - `standard_role_oid` was blank.
+      parameters:
+        - name: configuration_type_uuid
+          description: The universally unique identifier for the Configuration Type.
+          in: path
+          required: true
+          type: string
+        - name: configuration_type_role
+          description: Values used to create the new Configuration Type Role.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConfigurationTypeRoleRequest'
+
+  '/configuration_type_roles':
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConfigurationTypeRoles'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Configuration Type Roles
+      operationId: configuration_type_roles.standard_roles_index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ConfigurationTypeRole'
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: standard_role_oid
+          description: Standard Role OID.
+          in: query
+          required: true
+          type: string
+
+  '/configuration_type_roles/{uuid}':
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConfigurationTypeRoles'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      x-mdsol:
+        externalPath: idem
+      summary: Get a Configuration Type Role
+      operationId: configuration_type_roles.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationTypeRole'
+        '404':
+          description: Configuration Type Role not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+    put:
+      summary: Update a Configuration Type Role
+      operationId: configuration_type_roles.update
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConfigurationTypeRole'
+        '404':
+          description: Configuration Type Role not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: Cannot update Configuration Type Role due to conflicting role assignments for assigned users.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Attempted to set read-only attributes (e.g. `created_at`, `configuration_type_uuid`)
+              - One or more of the Permissions was not recognized.
+              - `name` attribute was not unique or longer than 255 characters.
+              - `standard_role_oid` was blank.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: configuration_type_role
+          description: Values used to modify the existing Configuration Type Role.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConfigurationTypeRoleRequest'
+    delete:
+      summary: Delete a Configuration Type Role
+      operationId: configuration_type_roles.destroy
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: The Configuration Type Role was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: Cannot delete Configuration Type Role with associated role assignments.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /conflicting_roles_sets:
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConflictingRolesSets'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Conflicting Roles Sets
+      description: |-
+        Filtered list of conflicting roles sets based on `parent_uri` and `name`.
+        Each combination of `parent_uri` and `name` uniquely identifies a single
+        Conflicting Roles Set, so providing both will return a single element
+        array if a Conflicting Roles Set exists for that combination.
+      operationId: conflicting_roles_sets.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ConflictingRolesSet'
+        '400':
+          description: A required parameter is missing.
+        '404':
+          description: |-
+            Authorization failed as requester is missing a required privilege.
+        '406':
+          description: Included Accept header is not a supported format.
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - $ref: '#/parameters/includeCount'
+        - name: parent_uri
+          in: query
+          required: false
+          type: string
+          description: |-
+            The URI for the resource that is the parent of a Conflicting Roles
+            Set.
+        - name: name
+          in: query
+          required: false
+          type: string
+          description: |-
+            The URI for the resource that, along with a `parent_uri`, uniquely
+            identifies a Conflicting Roles Set.
+    post:
+      summary: Create a New Conflicting Roles Set
+      description: |-
+        Create a new Conflicting Roles Set for a unique pair of `parent_uri` and
+        `name`.
+      operationId: conflicting_roles_sets.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConflictingRolesSet'
+        '404':
+          description: |-
+            Authorization failed as requester is missing a required privilege.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - The `parent_uri` or `name` are not valid URIs.
+              - The combination of `parent_uri` and `name` is not unique.
+              - One or more of the items in `configuration_type_role_uuids` is
+                not a valid UUID.
+              - One or more of the roles specified in
+                `configuration_type_role_uuids` does not currently exist.
+              - The items in `configuration_type_role_uuids` are not unique.
+      parameters:
+        - name: conflicting_roles_set
+          description: Values used to create the new Conflicting Roles Set.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConflictingRolesSetCreateRequest'
+
+  /conflicting_roles_sets/{uuid}:
+    x-mdsol:
+      doc:
+        $ref: '#/x-mdsol/docs/ConflictingRolesSets'
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    put:
+      summary: Update a Conflicting Roles Set
+      operationId: conflicting_roles_sets.update
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ConflictingRolesSet'
+        '404':
+          description: |-
+            The Conflicting Roles Set is not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Updating the Conflicting Role Set with these roles would put an
+                existing user in an incompatible state.
+              - There are duplicate UUIDs in `configuration_type_role_uuids`.
+              - One or more of the roles referenced by UUID in
+                `configuration_type_role_uuids` does not currently exist.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: conflicting_roles_set
+          description: Values used to modify the existing Conflicting Roles Set.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ConflictingRolesSetUpdateRequest'
+    delete:
+      summary: Delete a Conflicting Roles Set
+      operationId: conflicting_roles_sets.destroy
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: |-
+            The Conflicting Roles Set is not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content Type header is not a supported format.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /grants:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    post:
+      summary: Create a New Grant
+      description: |-
+        Creates one or multiple Grant resources, so operators can access specific combinations of
+        Configuration Type Roles and operables.
+      operationId: grants.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/BulkGrant'
+        '404':
+          description: |-
+            Authorization failed as requester was missing a required privilege,
+            or the `operator_uri`, or `role_operable_pairs` was not recognized.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: |-
+            The configuration type roles specified in the `role_operable_pairs` parameter are incompatible with
+            another Configuration Type Role assigned to the `operator_uri`.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - One or all of `operator_uri`, and `role_operable_pairs` parameters were missing or invalid.
+              - `role_operable_pairs` already exists.
+        '429':
+          description: The service is under heavy load, retry the request again soon.
+      parameters:
+        - name: grants
+          description: Values used to create the new Grant.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BulkGrantRequest'
+        - name: dry_run
+          description: Whether the request should be treated as a dry run, meaning that any changes are not persisted.
+          in: query
+          required: false
+          type: boolean
+
+  '/grants/{uuid}':
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get a Grant
+      operationId: grants.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/Grant'
+        '404':
+          description: The Grant was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+    put:
+      summary: Update a Grant
+      operationId: grants.update
+      responses:
+        '200':
+          description: The Grant was successfully updated.
+          schema:
+            $ref: '#/definitions/Grant'
+        '404':
+          description: The Grant was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: |-
+            The Configuration Type Roles specified in the `role_operable_pairs` parameter are incompatible with
+            another Configuration Type Role assigned to the `operator_uri`.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - One or all of `operator_uri`, and `role_operable_pairs` parameters were missing or invalid.
+              - `role_operable_pairs` already exists.
+        '429':
+          description: The service is under heavy load, retry the request again soon.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: grant
+          description: Values used to update the existing Grant.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GrantRequest'
+    delete:
+      summary: Delete a Grant
+      operationId: grants.delete
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: The Grant was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '429':
+          description: The service is under heavy load, retry the request again soon.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /grants/delete_by:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    delete:
+      summary: Delete a Grant by `reason_uri`
+      operationId: grants.delete_by_reason_uri
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: The Grant was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - name: reason_uri
+          description: The reason the Grant should exist, specified as an URI.
+          in: query
+          required: true
+          type: string
+
+  /permissions:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All permissions
+      description: |-
+        A filtered collection of permissions containing an operation. Permissions
+        represent a commitment by the process that owns the Protected Resource Type to use the authorization
+        process to authorize requests and perform the given operation on resources of the given type.
+        By convention, the operation usually contains both an action and the name of the resource; for
+        example, `read_studies`.
+      operationId: permissions.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Permission'
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: operation
+          description: Object identifier for the operation; for example, 'lock', 'unlock'.
+          in: query
+          required: false
+          type: string
+        - name: partial_matching
+          description: Whether to return all results where the operation field is a substring of the result operations.
+          in: query
+          required: false
+          type: boolean
+
+    post:
+      summary: Create a New Permission
+      description: Create a Permission for a particular operation, which must be uniquely named.
+      operationId: permissions.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/Permission'
+        '404':
+          description: Authorization failed as requester was missing a required privilege.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Permission already exists for the named `operation`.
+              - `operation` name was not be blank.
+              - `operation` name length must be between 3 and 255 characters.
+      parameters:
+        - name: operation
+          description: The operation of the Permission. Must be unique.
+          in: query
+          required: true
+          type: string
+
+  /permissions/{uuid}:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get a Permission
+      operationId: permissions.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/Permission'
+        '404':
+          description: Permission not found or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /privileges:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Privileges
+      description: |-
+        List Privilege resources depending on the parameters passed. The following cases are supported:
+          - Listing privileges for specific Operators
+            - Set the `operator_uri` and `operation` parameters.
+            - The `operable_type` parameter can be optionally set.
+          - Listing privileges for a specific Operator and Operable
+            - Set the `operator_uri` and `operable_uri` parameters.
+          - Listing privileges for a specific Operator and Operable scope
+            - Set the `operator_uri`, `operation`, and `operable_uri` parameters.
+            - The `operable_type` parameter can be optionally set.
+      operationId: privileges.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Privilege'
+        '404':
+          description: Requester does not have proper permissions or is explicitly prohibited for the Privilege.
+        '406':
+          description: Included Accept header is not a supported format.
+        '422':
+          description: |-
+            Certains parameters were missing or not a valid URI. See the operation description
+            for the required pair of parameters that need to be passed together.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - $ref: '#/parameters/operatorUri'
+        - name: ignore_prohibitions
+          description: Whether prohibited Privileges should be included in the result.
+          in: query
+          required: false
+          type: boolean
+        - name: operable_type
+          description: The resource being checked for permissions.
+          in: query
+          required: false
+          type: string
+        - name: operable_uri
+          description: The operable, that is, the clinicial resource or collection URI; for example, `com:mdsol:studies:<uuid>`.
+          in: query
+          required: false
+          type: string
+        - name: operation
+          description: Used to bulk-get permissions between operator and operable_type.
+          in: query
+          required: false
+          type: string
+        - name: configuration_type_role_uri
+          description: The Configuration Type Role URI from which the privileges must be derived.
+          in: query
+          required: false
+          type: string
+
+  /privileges/show:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get a Privilege
+      operationId: privileges.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/Privilege'
+        '404':
+          description: Requester does not have proper permissions, or `operable_uri` and/or `operator` is unrecognized.
+        '406':
+          description: Included Accept header is not a supported format.
+        '422':
+          description: Parameters `operable_uri` or `operator_uri` were missing or not a valid URI.
+      parameters:
+        - $ref: '#/parameters/operatorUri'
+        - name: operable_uri
+          description: The operable, that is, the clinicial resource or collection URI; for example, `com:mdsol:studies:<uuid>`.
+          in: query
+          required: true
+          type: string
+        - name: operation
+          description: Object identifier of the operation; for example, `read` or `randomize`.
+          in: query
+          required: true
+          type: string
+        - name: configuration_type_role_uri
+          description: The Configuration Type Role URI from which the Privilege must be derived from.
+          in: query
+          required: false
+          type: string
+        - name: ignore_prohibitions
+          description: Whether prohibited privileges should be included in the result.
+          in: query
+          required: false
+          type: boolean
+
+  /protected_resource_types:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Protected Resource Types
+      operationId: protected_resource_types.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProtectedResourceType'
+        '404':
+          description: Authorization failed as requestor does not have permission to view protected resource types.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: oid
+          description: Object identifier for the resource; for example, `study-sites`.
+          in: query
+          required: false
+          type: string
+        - name: parent
+          description: |-
+            Protected Resource Type results will contain the specified Object identifier among their parents.
+          in: query
+          required: false
+          type: string
+
+  '/protected_resource_types/{uuid}':
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get a Protected Resource Type
+      operationId: protected_resource_types.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/ProtectedResourceType'
+        '404':
+          description: Protected Resource Type not found or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+
+  /role_assignments:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Role Assignments
+      operationId: role_assignments.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RoleAssignment'
+        '404':
+          description: Authorization failed as requestor does not have permission to view role assignments.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - $ref: '#/parameters/operatorUri'
+        - name: operable_uri
+          description: The operable, that is, the clinicial resource or collection URI; for example, 'com:mdsol:studies:<uuid>'.
+          in: query
+          required: false
+          type: string
+        - name: role_uri
+          description: The Configuration Type Role URI.
+          in: query
+          required: false
+          type: string
+    post:
+      summary: Create a New Role Assignment
+      description: Create a Role Assignment resource granting an operator access to an operable with a specific role.
+      operationId: role_assignments.create
+      responses:
+        '201':
+          description: Success.
+          schema:
+            $ref: '#/definitions/RoleAssignment'
+        '404':
+          description: |-
+            Authorization failed as requester was missing a required privilege,
+            or the `operator_uri`, `operable_uri`, or `role_uri` was not recognized.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: |-
+            The Configuration Type Role specified in the `role_uri` parameter is incompatible with
+            another Configuration Type Role assigned to the `operator_uri`.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - Role Assignment specified by `operable_uri`, `operator_uri`, and `role_uri` already exist.
+              - One or all of `operable_uri`, `operator_uri`, and `role_uri` parameters were missing or invalid.
+      parameters:
+        - name: role_assignment
+          description: Values used to create the new Role Assignment.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RoleAssignmentCreateRequest'
+
+  '/role_assignments/{uuid}':
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get a Role Assignment
+      operationId: role_assignments.show
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/RoleAssignment'
+        '404':
+          description: The Role Assignment was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+    put:
+      summary: Update a Role Assignment
+      operationId: role_assignments.update
+      responses:
+        '200':
+          description: Success.
+          schema:
+            $ref: '#/definitions/RoleAssignment'
+        '404':
+          description: The Role Assignment was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '422':
+          description: |-
+            One of the following situations occurred:
+              - The `status` parameter was missing or invalid.
+              - Unpermitted attributes (any attribute other than `status`) were passed.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: status
+          description: |-
+            The status of the Role Assignment, which must be a valid status as defined in iMedidata;
+            for example, `invitation_declined`, `access_granted`, `activation_pending`, etc.
+          in: query
+          required: true
+          type: string
+    delete:
+      summary: Delete a Role Assignment
+      operationId: role_assignments.destroy
+      responses:
+        '202':
+          description: The Role Assignment was successfully deleted.
+        '403':
+          description: The Role Assignment cannot be deleted using the API, as the `read-only` attribute is set to true.
+        '404':
+          description: The Role Assignment was not recognized or authorization failed.
+        '406':
+          description: Included Accept header is not a supported format.
+        '409':
+          description: |-
+            Cannot delete a Role Assignment with a prohibition that will expose a conflict with an
+            app that validates incompatibility across all operables.
+        '415':
+          description: Included Content-Type header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - name: without_delay
+          description: |-
+            Whether the Role Assignment should be deleted instantly or after some delay.
+            A delayed delete can only be performed if there are no app permissions in the role,
+            otherwise a conflict could occur.
+          in: query
+          required: false
+          type: boolean
+
+  /standard_roles:
+    x-mdsol:
+      slo:
+        $ref: '#/x-mdsol/slos/defaultSLO'
+    get:
+      summary: Get All Standard Roles
+      description: Filtered list of standard roles based on `oid`.
+      operationId: standard_roles.index
+      responses:
+        '200':
+          description: Success.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StandardRole'
+          examples:
+            application/json: |-
+              [
+                {
+                  "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+                  "oid": "study_auditor"
+                },
+                {
+                  "uuid": "9a6927d3-0f0f-4c17-8098-3172d47cee33",
+                  "oid": "global_clinician"
+                },
+              ]
+        '404':
+          description: Requester is not authorized.
+        '406':
+          description: Included Accept header is not a supported format.
+        '500':
+          description: Fatal error in the server.
+      parameters:
+        - $ref: '#/parameters/includeCount'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+        - name: oid
+          in: query
+          required: false
+          type: string
+          description: Object identifier for the resource; for example, `study_auditor`.
+
+parameters:
+  page:
+    name: page
+    description: Specifies the page of results to return.
+    in: query
+    required: false
+    type: integer
+    default: 1
+
+  perPage:
+    name: per_page
+    description: Specifies how many items to return in each page of results.
+    in: query
+    required: false
+    type: integer
+    default: 25
+    maximum: 1000
+
+  includeCount:
+    name: include_count
+    description: Whether or not to include the total count of result entities in the `Mcc-Total-Items` header.
+    in: query
+    required: false
+    type: boolean
+    default: false
+
+  operatorUri:
+    name: operator_uri
+    description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+    in: query
+    required: false
+    type: string
+
+  uuid:
+    name: uuid
+    description: The [UUID](https://learn.mdsol.com/display/MCCSERVICESprd/Conventions+and+Keywords#ConventionsandKeywords-UniversallyUniqueIdentifiers) for the resource.
+    in: path
+    required: true
+    type: string
+
+definitions:
+  AccessControlList:
+    x-mdsol:
+      resource: access_control_lists
+    type: object
+    properties:
+      access_type:
+        description: The type of access that access controls should imply to the operable type.
+        type: string
+      operable_type:
+        description: |-
+          The operable type corresponding to the access controls in this Access Control List.
+          This may be any Protected Resource Type or the following virtual types:
+          `unblinded_study_environments`, `balance_study_environment_sites`.
+        type: string
+      s3_bucket_name:
+        description: The Amazon S3 Bucket name where the access controls for this Access Control List are stored.
+        type: string
+      s3_prefix:
+        description: The location on Amazon S3 where the access controls for this Access Control List are stored.
+        type: string
+      status:
+        description: The processing status of the Access Control List.
+        type: string
+        enum:
+          - finished
+          - finished_with_errors
+          - processing
+          - failed
+      tag:
+        description: The all_access_for_roles_tagged attribute for all-access access control lists.
+        type: string
+      uuid:
+        description: The universally unique identifier for the Access Control List.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "uuid": "a80d3462-4e2d-4750-b436-3b8f0f19d431",
+        "operable_type": "studies",
+        "access_type": "allow",
+        "status": "processing",
+        "s3_bucket_name": "dalton-access-control-lists",
+        "s3_prefix": "dalton/sandbox/ACLs/a80d3462-4e2d-4750-b436-3b8f0f19d431/ACCESS_CONTROLS/",
+        "tag": "mcc_reporter"
+      }
+
+  AccessControlListCreateRequest:
+    type: object
+    required:
+      - all_access_for_roles_tagged
+      - operable_type
+    properties:
+      access_type:
+        description: Type of access that access controls should imply to the operable type for the Access Control List.
+        type: string
+        default: allow
+      all_access_for_roles_tagged:
+        description: The tag of the role that must exist for all users in the user-operable pairs.
+        type: string
+      operable_type:
+        description: |-
+          The operable type corresponding to the access controls in this Access Control List.
+          This may be any protected resource type or the following virtual types:
+          `unblinded_study_environments`, `balance_study_environment_sites`.
+        type: string
+    example:
+      {
+        "operable_type": "studies",
+        "access_type": "allow",
+        "all_access_for_roles_tagged": "mcc_reporter"
+      }
+
+  AttributeCollection:
+    x-mdsol:
+      resource: attribute_collections
+    type: object
+    properties:
+      uuid:
+        description: The universally unique identifier for the Attribute Collection.
+        readOnly: true
+        type: string
+        format: uuid
+      attribute_collection_template_oid:
+        description: The object identifier for the associated Attribute Collection Template.
+        type: string
+      traversal_attributes:
+        description: A hash of attributes to be included in the traversal query during execution.
+        type: object
+        additionalProperties:
+          type: string
+      created_at:
+        description: Timestamp from the creation of the Attribute Collection.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp for the last time the Attribute Collection was updated.
+        readOnly: true
+        type: string
+    example:
+      {
+        "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+        "attribute_collection_template_oid": "all_sites_in_country",
+        "traversal_attributes": {
+          "root_node_uri": "com:mdsol_study_environments:77bb1a35-f55d-4210-97f6-aed34e696fc7",
+          "country_identifier": "FRA"
+        },
+        "created_at": "1980-01-01T00:00:00.000Z",
+        "updated_at": "1981-01-01T00:00:00.000Z"
+      }
+
+  AttributeCollectionCreateRequest:
+    type: object
+    properties:
+      attribute_collection_template_oid:
+        description: Object identifier of the associated Attribute Collection Template.
+        type: string
+      traversal_attributes:
+        description: A hash of attributes to be included in the traversal query during execution.
+        type: object
+        additionalProperties:
+          type: string
+    example:
+      {
+        "attribute_collection_template_oid": "all_sites_in_country",
+        "traversal_attributes": {
+          "root_node_uri": "com:mdsol_study_environments:77bb1a35-f55d-4210-97f6-aed34e696fc7",
+          "country_identifier": "FRA"
+        }
+      }
+
+  ConfigurationType:
+    x-mdsol:
+      resource: configuration_types
+    type: object
+    properties:
+      uuid:
+        description: The universally unique identifier for the Configuration Type.
+        readOnly: true
+        type: string
+        format: uuid
+      client_division_uuid:
+        description: The universally unique identifier for the parent Client Division.
+        type: string
+        format: uuid
+      configuration_type_uuids:
+        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        type: array
+        items:
+          type: string
+          format: uuid
+      created_at:
+        description: Timestamp from the creation of the Configuration Type.
+        readOnly: true
+        type: string
+      name:
+        description: Name describing the Configuration Type.
+        type: string
+      parent_uri:
+        description: |-
+          The URI of the object which is the parent of the Configuration Type. Must be a URI for a
+          Client Division Scheme or App; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
+        type: string
+    example:
+      {
+        "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+        "client_division_uuid": "d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+        "parent_uri": "com:mdsol:client_division_schemes:d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+        "name": "Global Cosmetic",
+        "configuration_type_uuids": [
+          "b2652a67-c587-4f71-a8f2-688ce02c32c8"
+        ],
+        "created_at": "1980-01-01T00:00:00.000Z"
+      }
+
+  ConfigurationTypeCreateRequest:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: Name describing the Configuration Type.
+        type: string
+      configuration_type_uuids:
+        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        type: array
+        items:
+          type: string
+          format: uuid
+      parent_uri:
+        description: |-
+          The URI of the object which is the parent of the Configuration Type. Must be a URI for a
+          Client Division Scheme or App; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
+        type: string
+    example:
+      {
+        "parent_uri": "com:mdsol:client_division_schemes:d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+        "name": "Global Cosmetics",
+        "configuration_type_uuids": [
+          "b2652a67-c587-4f71-a8f2-688ce02c32c8",
+          "0f709725-9b3e-4510-9bc2-4058579381ed"
+        ]
+      }
+
+  ConfigurationTypeUpdateRequest:
+    type: object
+    properties:
+      name:
+        description: Name describing the Configuration Type.
+        type: string
+      configuration_type_uuids:
+        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        type: array
+        items:
+          type: string
+          format: uuid
+    example:
+      {
+        "name": "New Name",
+        "configuration_type_uuids": [
+          "a2652a67-c587-4f71-a8f2-688ce02c32c8",
+          "1f709725-9b3e-4510-9bc2-4058579381ed"
+        ]
+      }
+
+  ConfigurationTypeRole:
+    x-mdsol:
+      resource: configuration_type_roles
+    type: object
+    properties:
+      configuration_type_role_uuids:
+        description: Configuration Type Role UUIDs that comprise this role.
+        type: array
+        items:
+          type: string
+          format: uuid
+      configuration_type_uuid:
+        description: The universally unique identifier for the parent Configuration Type.
+        readOnly: true
+        type: string
+        format: uuid
+      name:
+        description: Name describing the Configuration Type Role, which is unique within a Configuration Type.
+        type: string
+        maximum: 255
+      permissions:
+        description: An array of permissions granted by the Configuration Type Role.
+        type: array
+        items:
+          $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
+      prohibited_permissions:
+        description: An array of permissions explicitly prohibited by the Configuration Type Role.
+        type: array
+        items:
+          $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
+      read_only:
+        description: Whether or not the role should be editable via the UI.
+        type: boolean
+        default: false
+      role_category_oid:
+        description: Object identifier of the role category, corresponding to a Medidata role resource.
+        type: string
+      standard_role_oid:
+        description: Object identifier of the associated Medidata standard role.
+        type: string
+      tags:
+        description: Array of strings to categorize the Configuration Type Role; for example, 'internal', 'rave'.
+        type: array
+        items:
+          type: string
+      created_at:
+        description: Timestamp from the creation of the Configuration Type Role.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp for the last time the Configuration Type Role was updated.
+        readOnly: true
+        type: string
+      uuid:
+        description: The universally unique identifier for the Configuration Type Role.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+        "configuration_type_uuid": "d067ba34-c52a-4c30-b2bc-6bb8093beac0",
+        "role_category_oid": "PI",
+        "standard_role_oid": "principal_investigator",
+        "name": "Principal Investigator",
+        "permissions": [
+          {
+            "protected_resource_type": "studies",
+            "operation": "unlock"
+          }
+        ],
+        "prohibited_permissions": [
+          {
+            "protected_resource_type": "studies",
+            "operation": "read"
+          }
+        ],
+        "configuration_type_role_uuids": [
+          "b2652a67-c587-4f71-a8f2-688ce02c32c8"
+        ],
+        "tags": [
+          "rave"
+        ],
+        "created_at": "1980-01-01T00:00:00.000Z",
+        "updated_at": "1980-01-01T00:00:00.000Z"
+      }
+
+  ConfigurationTypeRoleRequest:
+    type: object
+    required:
+      - name
+    properties:
+      configuration_type_role_uuids:
+        description: |-
+          Configuration Type Role UUIDs that comprise this role. If this attribute is populated, the Authorization
+          process derives permissions and prohibited permissions from the roles within this array.
+        type: array
+        items:
+          type: string
+          format: uuid
+      name:
+        description: Name describing the Configuration Type Role, which is unique within a Configuration Type.
+        type: string
+        maximum: 255
+      read_only:
+        description: Whether or not the role should be editable via the UI.
+        type: boolean
+      permissions:
+        description: An array of Permissions granted by the Configuration Type Role.
+        type: array
+        items:
+          $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
+      prohibited_permissions:
+        description: An array of permissions explicitly prohibited by the Configuration Type Role.
+        type: array
+        items:
+          $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
+      role_category_oid:
+        description: Object identifier of the role category, corresponding to a Medidata role resource.
+        type: string
+      standard_role_oid:
+        description: Object identifier of the associated Medidata standard role.
+        type: string
+      tags:
+        description: Array of strings to categorize the Configuration Type Role; for example, 'internal', 'mccadmin', 'rave'.
+        type: array
+        items:
+          type: string
+    example:
+      {
+        "role_category_oid": "PI",
+        "standard_role_oid": "principal_investigator",
+        "name": "Principal Investigator",
+        "permissions": [
+          {
+            "protected_resource_type": "studies",
+            "operation": "unlock"
+          }
+        ],
+        "prohibited_permissions": [
+          {
+            "protected_resource_type": "studies",
+            "operation": "read"
+          }
+        ]
+      }
+      # TODO: Display multiple examples once V3 OpenAPI spec is available
+      # https://github.com/OAI/OpenAPI-Specification/issues/245
+      # role_category_oid: PI
+      # name: Principal Investigator
+      # configuration_type_role_uuids:
+      #   - b2652a67-c587-4f71-a8f2-688ce02c32c8
+      #   - 0f709725-9b3e-4510-9bc2-4058579381ed
+
+  ConflictingRolesSet:
+    x-mdsol:
+      resource: conflicting_roles_sets
+    type: object
+    properties:
+      parent_uri:
+        description: |-
+          The URI for the resource, like an App, that is the parent of the
+          Conflicting Roles Set and uniquely identifies it along with the `name`.
+        type: string
+      name:
+        description: |-
+          The URI for the resource, like a Client Division Scheme, that uniquely
+          identifies the Conflicting Roles Set along with the `parent_uri`.
+        type: string
+      configuration_type_role_uuids:
+        description: |-
+          Configuration Type Role UUIDs corresponding to the building block
+          configuration type roles that comprise this set.
+        type: array
+        items:
+          type: string
+          format: uuid
+      created_at:
+        description: Timestamp from the creation of the Conflicting Roles Set.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp from the last time the Conflicting Roles Set was updated.
+        readOnly: true
+        type: string
+      uuid:
+        description: The universally unique identifier for the Conflicting Role Set.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "uuid": "282b5727-b3fb-49b3-aa52-1f080c3e5c1d",
+        "parent_uri": "com:mdsol:apps:1c8ba023-b6a9-4e25-9e63-ec4873b4b722",
+        "name": "com:mdsol:client_division_schemes:37ca4ce3-818d-4864-9097-503127a03217",
+        "configuration_type_role_uuids": [
+          "23a26f5f-6c36-4256-b330-fa5910b38824",
+          "4914a0a3-d88c-4443-ad4f-8f0f8c44a297"
+        ],
+        "created_at": "1980-01-01T00:00:00.000Z",
+        "updated_at": "1980-01-01T00:00:00.000Z"
+      }
+
+  ConflictingRolesSetCreateRequest:
+    type: object
+    required:
+      - parent_uri
+      - name
+      - configuration_type_role_uuids
+    properties:
+      parent_uri:
+        description: |-
+          The URI for the resource, like an App, that is the parent of the
+          Conflicting Roles Set and uniquely identifies it along with the `name`.
+        type: string
+      name:
+        description: |-
+          The URI for the resource, like a Client Division Scheme, that uniquely
+          identifies the Conflicting Roles Set along with the `parent_uri`.
+        type: string
+      configuration_type_role_uuids:
+        description: |-
+          Configuration Type Role UUIDs corresponding to the set of building
+          block configuration type roles that comprise this set.
+        type: array
+        items:
+          type: string
+          format: uuid
+    example:
+      {
+        "parent_uri": "com:mdsol:apps:d9aa20e4-7d45-49af-90d2-fdd8ed53ee16",
+        "name": "com:mdsol:client_division_schemes:a1a369eb-2d65-435d-a6ea-4f9ee62a4da7",
+        "configuration_type_role_uuids": [
+          "0da4efe9-fd44-4d61-9832-0edf98ee8f5d",
+          "110b5c55-452d-414e-a038-5b0511ad7029"
+        ]
+      }
+
+  ConflictingRolesSetUpdateRequest:
+    type: object
+    required:
+      - configuration_type_role_uuids
+    properties:
+      configuration_type_role_uuids:
+        description: Configuration Type Role UUIDs that comprise the set.
+        type: array
+        items:
+          type: string
+          format: uuid
+    example:
+      {
+        "configuration_type_role_uuids": [
+          "0da4efe9-fd44-4d61-9832-0edf98ee8f5d",
+          "110b5c55-452d-414e-a038-5b0511ad7029"
+        ]
+      }
+
+  Grant:
+    x-mdsol:
+      resource: grants
+    type: object
+    properties:
+      operator_uri:
+        description: |-
+          Operator URI for which authorization was granted; for example, `com:mdsol:users:<uuid>`.
+        type: string
+      reason_uri:
+        description: The reason the Grant should exist, specified as an URI or left blank.
+        type: string
+      role_operable_pairs:
+        description: |-
+          A collection of Configuration Type Role URI and operable URI pairs. Each pair indicates
+          which roles the operator is assigned to, each specified object by the Grant.
+        type: array
+        items:
+          $ref: '#/definitions/GrantRoleOperablePair'
+      role_operable_pairs_hash:
+        description: Auto-generated hash of the `role_operable_pairs` value.
+        type: string
+      created_at:
+        description: Timestamp from the creation of the Grant.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp for the last time the Grant was updated.
+        readOnly: true
+        type: string
+      uuid:
+        description: The universally unique identifier for the Grant.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "uuid": "bb95cb4f-351f-484c-b64d-cb40861a95b8",
+        "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+        "reason_uri": "com:mdsol:study_environment_assignments:460f83f6-e24c-4bec-8f7a-2598167e0a24",
+        "role_operable_pairs": [
+          {
+            "configuration_type_role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+            "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f"
+          }
+        ],
+        "role_operable_pairs_hash": "9b92ea7554de4d2a401a49e177c30bdbdb3e830b",
+        "created_at": "1980-01-01T00:00:00.000Z",
+        "updated_at": "1980-01-01T00:00:00.000Z"
+      }
+
+  BulkGrant:
+    x-mdsol:
+      resource: grants
+    type: object
+    properties:
+      grants:
+        type: array
+        items:
+          $ref: '#/definitions/Grant'
+    example:
+      {
+        "grants": [
+          {
+            "uuid": "bb95cb4f-351f-484c-b64d-cb40861a95b8",
+            "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+            "reason_uri": "com:mdsol:study_environment_assignments:460f83f6-e24c-4bec-8f7a-2598167e0a24",
+            "role_operable_pairs": [
+              {
+                "configuration_type_role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+                "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f"
+              }
+            ],
+            "role_operable_pairs_hash": "9b92ea7554de4d2a401a49e177c30bdbdb3e830b",
+            "created_at": "1980-01-01T00:00:00.000Z",
+            "updated_at": "1980-01-01T00:00:00.000Z"
+          }
+        ]
+      }
+
+  GrantRequest:
+    type: object
+    required:
+      - operator_uri
+      - role_operable_pairs
+    properties:
+      dry_run:
+        description: Whether the request should be treated as a dry run, meaning that any changes are not persisted.
+        type: boolean
+        default: false
+      operator_uri:
+        description: The URI of the operator that will receive the Grant.
+        type: string
+      role_operable_pairs:
+        description: An array of Configuration Type Role URIs and operables.
+        type: array
+        items:
+          $ref: '#/definitions/GrantRoleOperablePair'
+      reason_uri:
+        description: |-
+          The URI of an external resource that is responsible for the Grant. If provided, it is globally unique;
+          a request with a duplicate reason_uri will overwrite the matching Grant.
+        type: string
+      skip_incompatibility_check:
+        type: boolean
+        description: Whether or not to validate the compatibility of the `role_operable_pairs`.
+        default: false
+    example:
+      {
+        "dry_run": true,
+        "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+        "role_operable_pairs": [
+          {
+            "configuration_type_role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+            "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f"
+          }
+        ],
+        "skip_incompatibility_check": true
+      }
+
+  GrantRoleOperablePair:
+    type: object
+    properties:
+      configuration_type_role_uri:
+        description: The URI for the Configuration Type Role; for example, `com:mdsol:configuration_type_roles:<uuid>`.
+        type: string
+      operable_uri:
+        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        type: string
+    example:
+      {
+        "configuration_type_role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+        "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f"
+      }
+
+
+  BulkGrantRequest:
+    type: object
+    required:
+      - grants
+    properties:
+      skip_incompatibility_check:
+        type: boolean
+        description: Whether or not to validate the compatibility of the `role_operable_pairs`.
+        default: false
+      grants:
+        type: array
+        items:
+          $ref: '#/definitions/GrantRequest'
+    example:
+      {
+        "skip_incompatibility_check": true,
+        "grants": [
+          {
+            "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+            "role_operable_pairs": [
+              {
+                "configuration_type_role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+                "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f"
+              }
+            ]
+          }
+        ]
+      }
+
+  Permission:
+    x-mdsol:
+      resource: permissions
+    type: object
+    properties:
+      operation:
+        description: |-
+          Object identifier for the operation, for example, `lock`, `unlock`.
+          By convention, this can include the name of the relevant resource; for example, `lock_studies`.
+          The operation string should be lowercase and underscore-delimited.
+        type: string
+      protected_resource_type:
+        description: Deprecated - Identifier denoting the class of the Protected Resource Type; default `no_type`.
+        # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
+        type: string
+      uuid:
+        description: The universally unique identifier for the Permission.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "protected_resource_type": "studies",
+        "operation": "lock",
+        "uuid": "521d14f9-e157-44a9-aa54-ce5eae9c6aba"
+      }
+
+  ConfigurationTypeRoleNestedPermission:
+    x-mdsol:
+      resource: permissions
+    type: object
+    properties:
+      operation:
+        description: |-
+          Object identifier for the operation; for example, `lock`, `unlock`.
+          By convention, this can include the name of the relevant resource; for example, `lock_studies`.
+          The operation string should be lowercase and underscore-delimited.
+        type: string
+      protected_resource_type:
+        description: Deprecated - Identifier denoting the class of the Protected Resource Type; default `no_type`.
+        # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
+        type: string
+    example:
+      {
+        "protected_resource_type": "studies",
+        "operation": "lock"
+      }
+
+  Privilege:
+    x-mdsol:
+      resource: privileges
+    type: object
+    properties:
+      operable_uri:
+        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        type: string
+      operation:
+        description: Object identifier for the operation.
+        type: string
+      operator_uri:
+        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        type: string
+    example:
+      {
+        "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+        "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f",
+        "operation": "unlock"
+      }
+
+  ProtectedResourceType:
+    x-mdsol:
+      resource: protected_resource_types
+    type: object
+    properties:
+      oid:
+        description: Object identifier for the resource; for example, `study-sites`.
+        type: string
+      members:
+        description: |-
+          Object identifiers for protected resource types that externally-defined descendants. For example,
+          study environment sites are members of study environment site groups.
+        type: array
+        items:
+          type: string
+          format: uuid
+      parents:
+        description: |-
+          Object identifiers for protected resource types that the resource considers itself a child;
+          for example, `studies` and `sites` for `study-sites`.
+        type: array
+        items:
+          type: string
+      uuid:
+        description: The universally unique identifier for the Protected Resource Type.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "oid": "study_sites",
+        "members": [],
+        "parents": [
+          "studies",
+          "sites"
+        ]
+      }
+
+  RoleAssignment:
+    x-mdsol:
+      resource: role_assignments
+    type: object
+    properties:
+      operable_uri:
+        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        type: string
+      operator_uri:
+        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        type: string
+      read_only:
+        description: Whether or not the Role Assignment can be modified by way of the API.
+        type: boolean
+      role_uri:
+        description: The Configuration Type Role URI.
+        type: string
+      status:
+        description: |-
+          The status of the Role Assignment, drawn from iMedidata; for example,
+          `invitation_declined`, `access_granted`, `activation_pending`, etc.
+        type: string
+      created_at:
+        description: Timestamp from the creation of the Role Assignment.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp for the last time the Role Assignment was updated.
+        readOnly: true
+        type: string
+      uuid:
+        description: The universally unique identifier for the Role Assignment.
+        readOnly: true
+        type: string
+        format: uuid
+    example:
+      {
+        "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+        "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f",
+        "role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f",
+        "status": "new_status",
+        "read_only": true,
+        "created_at": "1980-01-01T00:00:00.000Z",
+        "updated_at": "1980-01-01T00:00:00.000Z"
+      }
+
+  RoleAssignmentCreateRequest:
+    type: object
+    required:
+      - operable_uri
+      - operator_uri
+      - role_uri
+    properties:
+      operable_uri:
+        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        type: string
+      operator_uri:
+        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        type: string
+      role_uri:
+        description: The Configuration Type Role URI.
+        type: string
+      read_only:
+        description: A boolean indicating whether or not the Role Assignment can be modified by way of the API.
+        type: string
+      status:
+        description: A string indicating the status of the Role Assignment.
+        type: string
+    example:
+      {
+        "operator_uri": "com:mdsol:users:e14431bc-87f9-11e1-9130-00261824db2f",
+        "operable_uri": "com:mdsol:studies:ea25c8f2-8350-11e1-b36b-00261824db2f",
+        "role_uri": "com:mdsol:configuration_type_roles:ab5217d4-8350-11e1-ba4a-00261824db2f"
+      }
+
+  StandardRole:
+    x-mdsol:
+      resource: standard_roles
+    type: object
+    required:
+      - oid
+    properties:
+      oid:
+        description: Object identifier for the resource; for example, `study_auditor`.
+        type: string
+      uuid:
+        description: The universally unique identifier for the Standard Role.
+        readOnly: true
+        type: string
+        format: uuid
+      created_at:
+        description: Timestamp from the creation of the Standard Role.
+        readOnly: true
+        type: string
+      updated_at:
+        description: Timestamp for the last time the Standard Role was updated.
+        readOnly: true
+        type: string
+    example:
+      {
+        "uuid": "079e6b9d-e467-432e-94bd-ba39104d2493",
+        "oid": "study_auditor"
+      }
