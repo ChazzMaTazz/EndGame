@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-  title: Authorization data for the Medidata Platform
+  title: Authorization Data for the Medidata Platform
   description: |-
-    The Authorization process enables Medidata Clinical Cloud (MCC) access control and
+    The authorization process enables Medidata Clinical Cloud (MCC) access control and
     authorization of MCC resources.
   contact:
-    name: The Authorization development team
+    name: The Authorization Development Team
     email: team04@mdsol.com
   version: v1.4.3
 basePath: /v1
@@ -31,8 +31,8 @@ x-mdsol:
     ConflictingRolesSets:
       page: User Access Management/Conflicting Roles Sets
       overview: |-
-        Set of roles that creates a conflict when more than one are assigned
-        to an Operator on a given Operable.
+        Set of roles that creates a conflict when more than one role is assigned
+        to an operator on a given operable.
   servers:
     - url: https://dalton{stage}.imedidata{region}.{tld}{basePath}
   eurekaName: dalton
@@ -48,7 +48,7 @@ paths:
         $ref: '#/x-mdsol/slos/defaultSLO'
     post:
       summary: Create an Access Control List
-      description: Create an Access Control List made up of Role Assignments for different Protected Resource Types.
+      description: Create an access control list made up of role assignments for different protected resource types.
       operationId: access_control_lists.create
       responses:
         '202':
