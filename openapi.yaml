@@ -66,7 +66,7 @@ paths:
           description: Unprocessable entity. `operable_type` missing or `access_type` not set to `allow`.
       parameters:
         - name: access_control_list
-          description: Values to create the new access control list.
+          description: New access control list title.
           in: body
           required: true
           schema:
@@ -101,7 +101,7 @@ paths:
         '204':
           description: Access control list deleted.
         '404':
-          description: Requester unauthorized to delete access control lists or failed to find the specified one.
+          description: Requester unauthorized to delete access control lists or failed to find the specified list.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -132,7 +132,7 @@ paths:
               - `traversal_attributes` do not contain required keys from the associated attribute collection template.
       parameters:
         - name: attribute_collection
-          description: Values to create the new attribute collection.
+          description: New attribute collection title.
           in: body
           required: true
           schema:
@@ -251,7 +251,7 @@ paths:
               - Specified client division unrecognized.
       parameters:
         - name: configuration_type
-          description: Values to create the new configuration type.
+          description: New configuration type title.
           in: body
           required: true
           schema:
