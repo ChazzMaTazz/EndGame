@@ -57,16 +57,16 @@ paths:
           schema:
             $ref: '#/definitions/AccessControlList'
         '403':
-          description: Requester not authorized to create Access Control Lists for the specified Access Control List.
+          description: Requester not authorized to create access control lists for the specified access control list.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
-          description: Unprocessable entity - `operable_type` is missing or `access_type` is not set to `allow`.
+          description: Unprocessable entity. `operable_type` missing or `access_type` not set to `allow`.
       parameters:
         - name: access_control_list
-          description: Values used to create the new Access Control List.
+          description: Values to create the new access control list.
           in: body
           required: true
           schema:
@@ -82,15 +82,14 @@ paths:
       responses:
         '200':
           description: |-
-            The Access Control List was found successfully and its status and a link to its contents
-            were returned.
+            The access control list found successfully. Status and a link to its contents returned.
           schema:
             $ref: '#/definitions/AccessControlList'
         '404':
           description: |-
-            Requester does not have proper permissions or is explicitly prohibited for the Access Control List.
+            Requester does not have proper permissions or is explicitly prohibited for the access control list.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
           description: Fatal error in the server.
       parameters:
