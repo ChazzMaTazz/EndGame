@@ -53,11 +53,11 @@ paths:
       responses:
         '202':
           description: |-
-            The Access Control List job was successfully created. It may take up to 90 minutes to complete processing.
+            Access Control List job successfully created. Processing may take up to 90 minutes to complete.
           schema:
             $ref: '#/definitions/AccessControlList'
         '403':
-          description: Requester not authorized to create access control lists for the specified access control list.
+          description: Requester unauthorized to create access control lists for the specified access control list.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -87,7 +87,7 @@ paths:
             $ref: '#/definitions/AccessControlList'
         '404':
           description: |-
-            Requester does not have proper permissions or is explicitly prohibited for the access control list.
+            Requester does not have proper permissions or explicitly prohibited for the access control list.
         '406':
           description: Accept header format unsupported.
         '500':
