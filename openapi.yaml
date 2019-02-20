@@ -91,7 +91,7 @@ paths:
         '406':
           description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
     delete:
@@ -99,15 +99,15 @@ paths:
       operationId: access_control_lists.delete
       responses:
         '204':
-          description: The Access Control List was successfully deleted.
+          description: Access control list deleted.
         '404':
-          description: Requester not authorized to delete access control lists or failed to find the specified one.
+          description: Requester unauthorized to delete access control lists or failed to find the specified one.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -121,18 +121,18 @@ paths:
       responses:
         '201':
           description: |-
-            The Attribute Collection was successfully created or found with the specified parameters.
+            The attribute collection successfully created or found.
           schema:
             $ref: '#/definitions/AttributeCollection'
         '422':
           description: |-
             One of the following situations occurred:
-              - Required parameters were not provided.
-              - `attribute_collection_template_oid` did not reference an existing Attribute Collection Template.
-              - `traversal_attributes` did not contain required keys from the associated Attribute Collection Template.
+              - Required parameters not provided.
+              - `attribute_collection_template_oid` does not reference an existing attribute collection template.
+              - `traversal_attributes` do not contain required keys from the associated attribute collection template.
       parameters:
         - name: attribute_collection
-          description: Values used to create the new Attribute Collection.
+          description: Values to create the new attribute collection.
           in: body
           required: true
           schema:
@@ -151,11 +151,11 @@ paths:
           schema:
             $ref: '#/definitions/AttributeCollection'
         '404':
-          description: Attribute Collection not recognized or authorization failed.
+          description: Attribute collection unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -199,11 +199,11 @@ paths:
                 },
               ]
         '404':
-          description: Parent URI not recognized, or requester has no permissions for the resource.
+          description: Parent URI unrecognized or requester has no permissions for the resource.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
@@ -212,22 +212,22 @@ paths:
           in: query
           required: false
           type: string
-          description: Deprecated - use `parent_uri` instead.
+          description: **Deprecated**. Use `parent_uri`.
           # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         - name: parent_uri
           in: query
           required: false
           type: string
           description: |-
-            Filters Configuration Types associated with resource specified in the form of
+            Filters configuration types associated with resource specified in the form of
             [MDSOL URI](https://learn.mdsol.com/display/MCCSERVICESprd/Conventions+and+Keywords#ConventionsandKeywords-UniversallyUniqueIdentifiers).
             client division schemes or apps are the only valid resource types. For example, a valid client division
             scheme resource type's MDSOL URI looks like
-            `com:mdsol:client_division_schemes:<client_division_scheme_uuid>`. This parameter is required if
-            `client_division_uuid` is not provided.
+            `com:mdsol:client_division_schemes:<client_division_scheme_uuid>`. Required if
+            `client_division_uuid` not provided.
     post:
       summary: Create a New Configuration Type
-      description: Create a new Configuration Type for a particular `parent_uri`.
+      description: Create a new configuration type for a particular `parent_uri`.
       operationId: configuration_types.create
       responses:
         '201':
@@ -236,8 +236,8 @@ paths:
             $ref: '#/definitions/ConfigurationType'
         '404':
           description: |-
-            Requester not authorized to create configuration types for the specified Client Division
-            or the specified Configuration Type UUIDs could not be found.
+            Requester unauthorized to create configuration types for the specified client division
+            or the specified configuration type UUIDs not found.
         '406':
           description: Included Accept header is not a supported format.
         '415':
