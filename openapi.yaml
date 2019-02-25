@@ -574,8 +574,7 @@ paths:
     post:
       summary: Create a New Conflicting Roles Set
       description: |-
-        Create a new Conflicting Roles Set for a unique pair of `parent_uri` and
-        `name`.
+        Create a new conflicting roles set for a pair of `parent_uri` and `name`.
       operationId: conflicting_roles_sets.create
       responses:
         '201':
@@ -584,24 +583,24 @@ paths:
             $ref: '#/definitions/ConflictingRolesSet'
         '404':
           description: |-
-            Authorization failed as requester is missing a required privilege.
+            Authorization failed. Requester missing required privilege.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content Type header is not a supported format.
+          description: Content Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - The `parent_uri` or `name` are not valid URIs.
-              - The combination of `parent_uri` and `name` is not unique.
-              - One or more of the items in `configuration_type_role_uuids` is
+              - `parent_uri` or `name` not valid URIs.
+              - Combination of `parent_uri` and `name` not unique.
+              - One or more items in `configuration_type_role_uuids` is
                 not a valid UUID.
-              - One or more of the roles specified in
-                `configuration_type_role_uuids` does not currently exist.
-              - The items in `configuration_type_role_uuids` are not unique.
+              - One or more of the specified roles in
+                `configuration_type_role_uuids` does not exist.
+              - Items in `configuration_type_role_uuids` not unique.
       parameters:
         - name: conflicting_roles_set
-          description: Values used to create the new Conflicting Roles Set.
+          description: Values to create the new conflicting roles set.
           in: body
           required: true
           schema:
@@ -623,11 +622,11 @@ paths:
             $ref: '#/definitions/ConflictingRolesSet'
         '404':
           description: |-
-            The Conflicting Roles Set is not recognized or authorization failed.
+            Conflicting roles set unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content Type header is not a supported format.
+          description: Content Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
