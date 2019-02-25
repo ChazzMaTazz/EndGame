@@ -469,11 +469,11 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration Type Role not recognized or authorization failed.
+          description: Configuration type role unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
     put:
@@ -485,24 +485,24 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration Type Role not recognized or authorization failed.
+          description: Configuration type role unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
-          description: Cannot update Configuration Type Role due to conflicting role assignments for assigned users.
+          description: Cannot update. Configuration type role has conflicting role assignments for assigned users.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - Attempted to set read-only attributes (e.g. `created_at`, `configuration_type_uuid`)
-              - One or more of the Permissions was not recognized.
-              - `name` attribute was not unique or longer than 255 characters.
-              - `standard_role_oid` was blank.
+              - Attempted to set read-only attributes. For example, `created_at` or `configuration_type_uuid`.
+              - One or more of permissions unrecognized.
+              - `name` attribute not unique or longer than 255 characters.
+              - `standard_role_oid` blank.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: configuration_type_role
-          description: Values used to modify the existing Configuration Type Role.
+          description: Configuration type role title.
           in: body
           required: true
           schema:
@@ -514,15 +514,15 @@ paths:
         '204':
           description: Success.
         '404':
-          description: The Configuration Type Role was not recognized or authorization failed.
+          description: Configuration type role unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported format.
         '409':
-          description: Cannot delete Configuration Type Role with associated role assignments.
+          description: Cannot delete configuration type role with associated role assignments.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -537,8 +537,8 @@ paths:
       description: |-
         Filtered list of conflicting roles sets based on `parent_uri` and `name`.
         Each combination of `parent_uri` and `name` uniquely identifies a single
-        Conflicting Roles Set, so providing both will return a single element
-        array if a Conflicting Roles Set exists for that combination.
+        conflicting roles set, so providing both attributes returns a single element
+        array if a conflicting roles set exists for that combination.
       operationId: conflicting_roles_sets.index
       responses:
         '200':
@@ -548,12 +548,12 @@ paths:
             items:
               $ref: '#/definitions/ConflictingRolesSet'
         '400':
-          description: A required parameter is missing.
+          description: Required parameter missing.
         '404':
           description: |-
-            Authorization failed as requester is missing a required privilege.
+            Authorization failed. Requester missing required privilege.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
       parameters:
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
@@ -563,15 +563,14 @@ paths:
           required: false
           type: string
           description: |-
-            The URI for the resource that is the parent of a Conflicting Roles
-            Set.
+            Resource URI for the parent resource of a conflicting roles set.
         - name: name
           in: query
           required: false
           type: string
           description: |-
-            The URI for the resource that, along with a `parent_uri`, uniquely
-            identifies a Conflicting Roles Set.
+            Resource URI for the resource that, together with a `parent_uri`, uniquely
+            identifies a conflicting roles set.
     post:
       summary: Create a New Conflicting Roles Set
       description: |-
