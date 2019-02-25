@@ -630,15 +630,15 @@ paths:
         '422':
           description: |-
             One of the following situations occurred:
-              - Updating the Conflicting Role Set with these roles would put an
+              - Updating the conflicting role set with these roles puts an
                 existing user in an incompatible state.
-              - There are duplicate UUIDs in `configuration_type_role_uuids`.
-              - One or more of the roles referenced by UUID in
-                `configuration_type_role_uuids` does not currently exist.
+              - Duplicate UUIDs in `configuration_type_role_uuids`.
+              - One or more of the roles UUIDs in
+                `configuration_type_role_uuids` does not exist.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: conflicting_roles_set
-          description: Values used to modify the existing Conflicting Roles Set.
+          description: Values to modify the existing conflicting roles set.
           in: body
           required: true
           schema:
@@ -651,11 +651,11 @@ paths:
           description: Success.
         '404':
           description: |-
-            The Conflicting Roles Set is not recognized or authorization failed.
+            The conflicting roles set unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content Type header is not a supported format.
+          description: Content Type header format unsupported.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -666,8 +666,8 @@ paths:
     post:
       summary: Create a New Grant
       description: |-
-        Creates one or multiple Grant resources, so operators can access specific combinations of
-        Configuration Type Roles and operables.
+        Creates one or multiple Grant resources so operators can access specific combinations of
+        configuration type roles and operables.
       operationId: grants.create
       responses:
         '201':
@@ -676,32 +676,32 @@ paths:
             $ref: '#/definitions/BulkGrant'
         '404':
           description: |-
-            Authorization failed as requester was missing a required privilege,
-            or the `operator_uri`, or `role_operable_pairs` was not recognized.
+            Authorization failed. Requester missing a required privilege.
+            Or the `operator_uri`, or `role_operable_pairs` unrecognized.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
           description: |-
-            The configuration type roles specified in the `role_operable_pairs` parameter are incompatible with
-            another Configuration Type Role assigned to the `operator_uri`.
+            The configuration type roles specified in the `role_operable_pairs` parameter incompatible with
+            another configuration type role assigned to the `operator_uri`.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - One or all of `operator_uri`, and `role_operable_pairs` parameters were missing or invalid.
-              - `role_operable_pairs` already exists.
+              - One or all of `operator_uri` and `role_operable_pairs` parameters missing or invalid.
+              - `role_operable_pairs` exists.
         '429':
-          description: The service is under heavy load, retry the request again soon.
+          description: Too many requests. Retry again soon.
       parameters:
         - name: grants
-          description: Values used to create the new Grant.
+          description: Values to create the new grant.
           in: body
           required: true
           schema:
             $ref: '#/definitions/BulkGrantRequest'
         - name: dry_run
-          description: Whether the request should be treated as a dry run, meaning that any changes are not persisted.
+          description: Whether to treat request as a dry run; that is, changes not persisted.
           in: query
           required: false
           type: boolean
@@ -719,11 +719,11 @@ paths:
           schema:
             $ref: '#/definitions/Grant'
         '404':
-          description: The Grant was not recognized or authorization failed.
+          description: Grant unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
     put:
@@ -731,30 +731,30 @@ paths:
       operationId: grants.update
       responses:
         '200':
-          description: The Grant was successfully updated.
+          description: Grant successfully updated.
           schema:
             $ref: '#/definitions/Grant'
         '404':
-          description: The Grant was not recognized or authorization failed.
+          description: Grant unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
           description: |-
-            The Configuration Type Roles specified in the `role_operable_pairs` parameter are incompatible with
-            another Configuration Type Role assigned to the `operator_uri`.
+            The configuration type roles specified in the `role_operable_pairs` parameter incompatible with
+            another configuration type role assigned to the `operator_uri`.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - One or all of `operator_uri`, and `role_operable_pairs` parameters were missing or invalid.
-              - `role_operable_pairs` already exists.
+              - One or all of `operator_uri` and `role_operable_pairs` parameters missing or invalid.
+              - `role_operable_pairs` exists.
         '429':
-          description: The service is under heavy load, retry the request again soon.
+          description: Too many requests. Retry again soon.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: grant
-          description: Values used to update the existing Grant.
+          description: Values to update existing grant.
           in: body
           required: true
           schema:
@@ -766,15 +766,15 @@ paths:
         '204':
           description: Success.
         '404':
-          description: The Grant was not recognized or authorization failed.
+          description: Grant unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '429':
-          description: The service is under heavy load, retry the request again soon.
+          description: Too many requests. Retry again soon.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -789,16 +789,16 @@ paths:
         '204':
           description: Success.
         '404':
-          description: The Grant was not recognized or authorization failed.
+          description: Grant unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: internal server error.
       parameters:
         - name: reason_uri
-          description: The reason the Grant should exist, specified as an URI.
+          description: Reason Grant should exist. Specified as URI.
           in: query
           required: true
           type: string
@@ -810,10 +810,10 @@ paths:
     get:
       summary: Get All permissions
       description: |-
-        A filtered collection of permissions containing an operation. Permissions
-        represent a commitment by the process that owns the Protected Resource Type to use the authorization
+        A filtered collection of permissions with an operation. Permissions
+        are a commitment by the process that owns the protected resource type to use the authorization
         process to authorize requests and perform the given operation on resources of the given type.
-        By convention, the operation usually contains both an action and the name of the resource; for
+        By convention, the operation usually contains an action and the name of the resource; for
         example, `read_studies`.
       operationId: permissions.index
       responses:
