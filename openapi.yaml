@@ -824,9 +824,9 @@ paths:
             items:
               $ref: '#/definitions/Permission'
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
@@ -844,7 +844,7 @@ paths:
 
     post:
       summary: Create a New Permission
-      description: Create a Permission for a particular operation, which must be uniquely named.
+      description: Create a permission for a particular operation, which you must uniquely name.
       operationId: permissions.create
       responses:
         '201':
@@ -852,20 +852,20 @@ paths:
           schema:
             $ref: '#/definitions/Permission'
         '404':
-          description: Authorization failed as requester was missing a required privilege.
+          description: Authorization failed. Requester missing required privilege.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
-              - Permission already exists for the named `operation`.
-              - `operation` name was not be blank.
-              - `operation` name length must be between 3 and 255 characters.
+              - Permission already exists for `operation`.
+              - `operation` name left blank.
+              - `operation` name not between 3 and 255 characters.
       parameters:
         - name: operation
-          description: The operation of the Permission. Must be unique.
+          description: The permission operation. Must be unique.
           in: query
           required: true
           type: string
@@ -885,9 +885,9 @@ paths:
         '404':
           description: Permission not found or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -898,15 +898,15 @@ paths:
     get:
       summary: Get All Privileges
       description: |-
-        List Privilege resources depending on the parameters passed. The following cases are supported:
-          - Listing privileges for specific Operators
+        List privilege resources depending on the parameters passed. Supports the following cases:
+          - Privileges for specific operators:
             - Set the `operator_uri` and `operation` parameters.
-            - The `operable_type` parameter can be optionally set.
-          - Listing privileges for a specific Operator and Operable
-            - Set the `operator_uri` and `operable_uri` parameters.
-          - Listing privileges for a specific Operator and Operable scope
-            - Set the `operator_uri`, `operation`, and `operable_uri` parameters.
-            - The `operable_type` parameter can be optionally set.
+            - `operable_type` parameter can be optionally set.
+          - Privileges for specific operator and operable:
+            - Set `operator_uri` and `operable_uri` parameters.
+          - Privileges for specific operator and operable scope:
+            - Set `operator_uri`, `operation`, and `operable_uri` parameters.
+            - `operable_type` parameter can be optionally set.
       operationId: privileges.index
       responses:
         '200':
@@ -916,13 +916,13 @@ paths:
             items:
               $ref: '#/definitions/Privilege'
         '404':
-          description: Requester does not have proper permissions or is explicitly prohibited for the Privilege.
+          description: Requester does not have permissions or explicitly prohibited.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '422':
           description: |-
-            Certains parameters were missing or not a valid URI. See the operation description
-            for the required pair of parameters that need to be passed together.
+            Certain parameters missing or invalid URI. See the operation description
+            for the required pair of parameters that you need pass together.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
