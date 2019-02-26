@@ -87,7 +87,7 @@ paths:
             $ref: '#/definitions/AccessControlList'
         '404':
           description: |-
-            Requester does not have proper permissions or explicitly prohibited for the access control list.
+            Not found. Requester does not have proper permissions or explicitly prohibited for the access control list.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -101,7 +101,7 @@ paths:
         '204':
           description: Access control list deleted.
         '404':
-          description: Requester unauthorized to delete access control lists or failed to find the specified list.
+          description: Not found. Requester unauthorized to delete access control lists or failed to find the specified list.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -151,7 +151,7 @@ paths:
           schema:
             $ref: '#/definitions/AttributeCollection'
         '404':
-          description: Attribute collection unrecognized or authorization failed.
+          description: Not found. Attribute collection unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -199,7 +199,7 @@ paths:
                 },
               ]
         '404':
-          description: Parent URI unrecognized or requester has no permissions for the resource.
+          description: Not found. Parent URI unrecognized or requester has no permissions for the resource.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -236,7 +236,7 @@ paths:
             $ref: '#/definitions/ConfigurationType'
         '404':
           description: |-
-            Requester unauthorized to create configuration types for the specified client division
+            Not found. Requester unauthorized to create configuration types for the specified client division
             or the specified configuration type UUIDs not found.
         '406':
           description: Accept header format unsupported.
@@ -274,7 +274,7 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationType'
         '404':
-          description: Configuration type unrecognized or authorization failed.
+          description: Not found. Configuration type unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -291,7 +291,7 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationType'
         '404':
-          description: Configuration type unrecognized or authorization failed.
+          description: Not found. Configuration type unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -318,7 +318,7 @@ paths:
         '204':
           description: Success.
         '404':
-          description: Configuration type unrecognized or authorization failed.
+          description: Not found. Configuration type unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '409':
@@ -347,7 +347,7 @@ paths:
             items:
               $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration type unrecognized or authorization failed.
+          description: Not found. Configuration type unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '422':
@@ -397,7 +397,7 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration type unrecognized or authorization failed.
+          description: Not found. Configuration type unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -469,7 +469,7 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration type role unrecognized or authorization failed.
+          description: Not found. Configuration type role unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -485,7 +485,7 @@ paths:
           schema:
             $ref: '#/definitions/ConfigurationTypeRole'
         '404':
-          description: Configuration type role unrecognized or authorization failed.
+          description: Not found. Configuration type role unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '409':
@@ -514,7 +514,7 @@ paths:
         '204':
           description: Success.
         '404':
-          description: Configuration type role unrecognized or authorization failed.
+          description: Not found. Configuration type role unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported format.
         '409':
@@ -551,7 +551,7 @@ paths:
           description: Required parameter missing.
         '404':
           description: |-
-            Authorization failed. Requester missing required privilege.
+            Not found. Authorization failed. Requester missing required privilege.
         '406':
           description: Accept header format unsupported.
       parameters:
@@ -583,7 +583,7 @@ paths:
             $ref: '#/definitions/ConflictingRolesSet'
         '404':
           description: |-
-            Authorization failed. Requester missing required privilege.
+            Not found. Authorization failed. Requester missing required privilege.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -622,7 +622,7 @@ paths:
             $ref: '#/definitions/ConflictingRolesSet'
         '404':
           description: |-
-            Conflicting roles set unrecognized or authorization failed.
+            Not found. Conflicting roles set unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -651,7 +651,7 @@ paths:
           description: Success.
         '404':
           description: |-
-            The conflicting roles set unrecognized or authorization failed.
+            Not found. The conflicting roles set unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -676,8 +676,8 @@ paths:
             $ref: '#/definitions/BulkGrant'
         '404':
           description: |-
-            Authorization failed. Requester missing a required privilege.
-            Or the `operator_uri` or `role_operable_pairs` unrecognized.
+            Not found. Authorization failed. Requester missing a required privilege
+            or the `operator_uri` or `role_operable_pairs` unrecognized.
         '406':
           description: Accept header format unsupported.
         '409':
@@ -719,7 +719,7 @@ paths:
           schema:
             $ref: '#/definitions/Grant'
         '404':
-          description: Grant unrecognized or authorization failed.
+          description: Not found. Grant unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -735,7 +735,7 @@ paths:
           schema:
             $ref: '#/definitions/Grant'
         '404':
-          description: Grant unrecognized or authorization failed.
+          description: Not found. Grant unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '409':
@@ -766,7 +766,7 @@ paths:
         '204':
           description: Success.
         '404':
-          description: Grant unrecognized or authorization failed.
+          description: Not found. Grant unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -789,7 +789,7 @@ paths:
         '204':
           description: Success.
         '404':
-          description: Grant unrecognized or authorization failed.
+          description: Not found. Grant unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -852,7 +852,7 @@ paths:
           schema:
             $ref: '#/definitions/Permission'
         '404':
-          description: Authorization failed. Requester missing required privilege.
+          description: Not found. Authorization failed. Requester missing required privilege.
         '406':
           description: Accept header format unsupported.
         '415':
@@ -883,7 +883,7 @@ paths:
           schema:
             $ref: '#/definitions/Permission'
         '404':
-          description: Permission not found or authorization failed.
+          description: Not found. Permission not found or authorization failed.
         '406':
           description: Accept header format unsupported.
         '500':
@@ -916,7 +916,7 @@ paths:
             items:
               $ref: '#/definitions/Privilege'
         '404':
-          description: Requester does not have permissions or explicitly prohibited.
+          description: Not found. Requester does not have permissions or explicitly prohibited.
         '406':
           description: Accept header format unsupported.
         '422':
@@ -967,7 +967,7 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Not found. Requester does not have proper permissions. 
+          description: Not found. Not found. Requester does not have proper permissions. 
           Or `operable_uri` or `operator` unrecognized.
         '406':
           description: Accept header format unsupported.
@@ -1011,9 +1011,9 @@ paths:
             items:
               $ref: '#/definitions/ProtectedResourceType'
         '404':
-          description: Authorization failed as requestor does not have permission to view protected resource types.
+          description: Not found. Requester does not have permission to view protected resource types.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header unsupported.
         '500':
           description: Fatal error in the server.
       parameters:
@@ -1045,7 +1045,7 @@ paths:
           schema:
             $ref: '#/definitions/ProtectedResourceType'
         '404':
-          description: Protected Resource Type not found or authorization failed.
+          description: Not found. Protected resource type not found or authorization failed.
         '406':
           description: Included Accept header is not a supported format.
         '500':
@@ -1068,7 +1068,7 @@ paths:
             items:
               $ref: '#/definitions/RoleAssignment'
         '404':
-          description: Authorization failed as requestor does not have permission to view role assignments.
+          description: Not found. Requester does not have permission to view role assignments.
         '406':
           description: Included Accept header is not a supported format.
         '500':
@@ -1099,10 +1099,10 @@ paths:
             $ref: '#/definitions/RoleAssignment'
         '404':
           description: |-
-            Authorization failed as requester was missing a required privilege,
-            or the `operator_uri`, `operable_uri`, or `role_uri` was not recognized.
+            Not found. Requester missing required privilege,
+            or the `operator_uri`, `operable_uri`, or `role_uri` unrecognized.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
           description: |-
             The Configuration Type Role specified in the `role_uri` parameter is incompatible with
@@ -1135,7 +1135,7 @@ paths:
           schema:
             $ref: '#/definitions/RoleAssignment'
         '404':
-          description: The Role Assignment was not recognized or authorization failed.
+          description: Not found. Role assignment unrecognized or authorization failed.
         '406':
           description: Included Accept header is not a supported format.
         '500':
@@ -1151,7 +1151,7 @@ paths:
           schema:
             $ref: '#/definitions/RoleAssignment'
         '404':
-          description: The Role Assignment was not recognized or authorization failed.
+          description: Not found. Role assignment unrecognized or authorization failed.
         '406':
           description: Included Accept header is not a supported format.
         '415':
@@ -1179,7 +1179,7 @@ paths:
         '403':
           description: The Role Assignment cannot be deleted using the API, as the `read-only` attribute is set to true.
         '404':
-          description: The Role Assignment was not recognized or authorization failed.
+          description: Not found. Role Assignment unrecognized or authorization failed.
         '406':
           description: Included Accept header is not a supported format.
         '409':
@@ -1229,7 +1229,7 @@ paths:
                 },
               ]
         '404':
-          description: Requester is not authorized.
+          description: Not found. Requester unauthorized.
         '406':
           description: Included Accept header is not a supported format.
         '500':
@@ -2093,19 +2093,19 @@ definitions:
       - role_uri
     properties:
       operable_uri:
-        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        description: Operable's URI; for example, `com:mdsol:studies:<uuid>`.
         type: string
       operator_uri:
-        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        description: Operator's URI; for example, `com:mdsol:users:<uuid>`.
         type: string
       role_uri:
-        description: The Configuration Type Role URI.
+        description: Configuration type role's URI.
         type: string
       read_only:
-        description: A boolean indicating whether or not the Role Assignment can be modified by way of the API.
+        description: Whether or not the role assignment can be modified by way of the API.
         type: string
       status:
-        description: A string indicating the status of the Role Assignment.
+        description: Role assignment status.
         type: string
     example:
       {
@@ -2125,16 +2125,16 @@ definitions:
         description: Object identifier for the resource; for example, `study_auditor`.
         type: string
       uuid:
-        description: The universally unique identifier for the Standard Role.
+        description: The universally unique identifier for the standard role.
         readOnly: true
         type: string
         format: uuid
       created_at:
-        description: Timestamp from the creation of the Standard Role.
+        description: Timestamp from the creation of the standard role.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the Standard Role was updated.
+        description: Timestamp for the last time the standard role was updated.
         readOnly: true
         type: string
     example:
