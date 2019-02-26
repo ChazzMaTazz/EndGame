@@ -1469,15 +1469,15 @@ definitions:
         description: Configuration type's name.
         type: string
       configuration_type_uuids:
-        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        description: Array of configuration type identifiers accessible for the requested configuration type.
         type: array
         items:
           type: string
           format: uuid
       parent_uri:
         description: |-
-          The URI of the object which is the parent of the Configuration Type. Must be a URI for a
-          Client Division Scheme or App; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
+          URI of the configuration type's parent object. Must be a URI for a
+          client division scheme or app; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
         type: string
     example:
       {
@@ -1493,10 +1493,10 @@ definitions:
     type: object
     properties:
       name:
-        description: Name describing the Configuration Type.
+        description: Configuration type's name.
         type: string
       configuration_type_uuids:
-        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        description: Array of configuration type identifiers accessible for the requested configuration type.
         type: array
         items:
           type: string
@@ -1516,55 +1516,55 @@ definitions:
     type: object
     properties:
       configuration_type_role_uuids:
-        description: Configuration Type Role UUIDs that comprise this role.
+        description: Configuration type role's universally unique identifiers that comprise the role.
         type: array
         items:
           type: string
           format: uuid
       configuration_type_uuid:
-        description: The universally unique identifier for the parent Configuration Type.
+        description: Parent configuration type role's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
       name:
-        description: Name describing the Configuration Type Role, which is unique within a Configuration Type.
+        description: Configuration type role's name describing, unique within a configuration type.
         type: string
         maximum: 255
       permissions:
-        description: An array of permissions granted by the Configuration Type Role.
+        description: Array of permissions granted by the configuration type role.
         type: array
         items:
           $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
       prohibited_permissions:
-        description: An array of permissions explicitly prohibited by the Configuration Type Role.
+        description: Array of permissions the configuration type role explicitly prohibits.
         type: array
         items:
           $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
       read_only:
-        description: Whether or not the role should be editable via the UI.
+        description: Whether role should be editable by way of the UI.
         type: boolean
         default: false
       role_category_oid:
-        description: Object identifier of the role category, corresponding to a Medidata role resource.
+        description: Role category's object identifier. Corresponds to a Medidata role resource.
         type: string
       standard_role_oid:
-        description: Object identifier of the associated Medidata standard role.
+        description: Associated Medidata standard role's object identifier.
         type: string
       tags:
-        description: Array of strings to categorize the Configuration Type Role; for example, 'internal', 'rave'.
+        description: Array of strings to categorize the configuration type role. For example, 'internal' or 'rave'.
         type: array
         items:
           type: string
       created_at:
-        description: Timestamp from the creation of the Configuration Type Role.
+        description: Configuration type role's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the Configuration Type Role was updated.
+        description: Configuration type role's last update timestamp.
         readOnly: true
         type: string
       uuid:
-        description: The universally unique identifier for the Configuration Type Role.
+        description: Configuration type role's  universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -1604,37 +1604,37 @@ definitions:
     properties:
       configuration_type_role_uuids:
         description: |-
-          Configuration Type Role UUIDs that comprise this role. If this attribute is populated, the Authorization
-          process derives permissions and prohibited permissions from the roles within this array.
+          Configuration type role UUIDs that comprise the role. If you send this attribute in the request, the Authorization
+          process derives permissions and prohibited permissions from the roles in the array.
         type: array
         items:
           type: string
           format: uuid
       name:
-        description: Name describing the Configuration Type Role, which is unique within a Configuration Type.
+        description: Configuration type role's name, unique within a configuration type.
         type: string
         maximum: 255
       read_only:
-        description: Whether or not the role should be editable via the UI.
+        description: Whether the role should be editable by way of the UI.
         type: boolean
       permissions:
-        description: An array of Permissions granted by the Configuration Type Role.
+        description: Array of permissions granted by the configuration type role.
         type: array
         items:
           $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
       prohibited_permissions:
-        description: An array of permissions explicitly prohibited by the Configuration Type Role.
+        description: Array of permissions the configuration type role explicitly prohibits.
         type: array
         items:
           $ref: '#/definitions/ConfigurationTypeRoleNestedPermission'
       role_category_oid:
-        description: Object identifier of the role category, corresponding to a Medidata role resource.
+        description: Role category's object identifier. Corresponds to a Medidata role resource.
         type: string
       standard_role_oid:
-        description: Object identifier of the associated Medidata standard role.
+        description: Associated Medidata standard role's object identifier.
         type: string
       tags:
-        description: Array of strings to categorize the Configuration Type Role; for example, 'internal', 'mccadmin', 'rave'.
+        description: Array of strings to categorize the configuration type role. For example, 'internal', 'mccadmin', or 'rave'.
         type: array
         items:
           type: string
@@ -1671,32 +1671,32 @@ definitions:
     properties:
       parent_uri:
         description: |-
-          The URI for the resource, like an App, that is the parent of the
-          Conflicting Roles Set and uniquely identifies it along with the `name`.
+          Resource's URI - like an app - that is the parent of the
+          conflicting roles set. Uniquely identifies the set along with `name`.
         type: string
       name:
         description: |-
-          The URI for the resource, like a Client Division Scheme, that uniquely
-          identifies the Conflicting Roles Set along with the `parent_uri`.
+          Resource's URI - like a client division scheme - that uniquely
+          identifies the conflicting roles set along with `parent_uri`.
         type: string
       configuration_type_role_uuids:
         description: |-
-          Configuration Type Role UUIDs corresponding to the building block
-          configuration type roles that comprise this set.
+          Configuration type role's universally unique identifiers corresponding to the building block
+          configuration type roles comprising the set.
         type: array
         items:
           type: string
           format: uuid
       created_at:
-        description: Timestamp from the creation of the Conflicting Roles Set.
+        description: Conflicting roles set's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp from the last time the Conflicting Roles Set was updated.
+        description: Conflicting roles set's last updated timestamp.
         readOnly: true
         type: string
       uuid:
-        description: The universally unique identifier for the Conflicting Role Set.
+        description: Conflicting roles set's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -1722,18 +1722,18 @@ definitions:
     properties:
       parent_uri:
         description: |-
-          The URI for the resource, like an App, that is the parent of the
-          Conflicting Roles Set and uniquely identifies it along with the `name`.
+          Resource's URI - like an app - that is the parent of the
+          conflicting roles set. Uniquely identifies the set along with `name`.
         type: string
       name:
         description: |-
-          The URI for the resource, like a Client Division Scheme, that uniquely
-          identifies the Conflicting Roles Set along with the `parent_uri`.
+          Resource's URI - like a client division scheme - that uniquely
+          identifies the conflicting roles set along with `parent_uri`.
         type: string
       configuration_type_role_uuids:
         description: |-
-          Configuration Type Role UUIDs corresponding to the set of building
-          block configuration type roles that comprise this set.
+          Configuration type role's universally unique identifiers corresponding to the building block
+          configuration type roles comprising the set.
         type: array
         items:
           type: string
@@ -1754,7 +1754,7 @@ definitions:
       - configuration_type_role_uuids
     properties:
       configuration_type_role_uuids:
-        description: Configuration Type Role UUIDs that comprise the set.
+        description: Configuration type role's universally unique identifiers that comprise the set.
         type: array
         items:
           type: string
@@ -1774,15 +1774,15 @@ definitions:
     properties:
       operator_uri:
         description: |-
-          Operator URI for which authorization was granted; for example, `com:mdsol:users:<uuid>`.
+          Operator URI for which authorization was granted. For example, `com:mdsol:users:<uuid>`.
         type: string
       reason_uri:
-        description: The reason the Grant should exist, specified as an URI or left blank.
+        description: The reason for the grant. Specified as URI or left blank.
         type: string
       role_operable_pairs:
         description: |-
-          A collection of Configuration Type Role URI and operable URI pairs. Each pair indicates
-          which roles the operator is assigned to, each specified object by the Grant.
+          Collection of configuration type role URI-operable URI pairs. Each pair indicates
+          roles the operator is assigned to. Each specified object by the grant.
         type: array
         items:
           $ref: '#/definitions/GrantRoleOperablePair'
@@ -1790,15 +1790,15 @@ definitions:
         description: Auto-generated hash of the `role_operable_pairs` value.
         type: string
       created_at:
-        description: Timestamp from the creation of the Grant.
+        description: Grant's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the Grant was updated.
+        description: Grant's last updated timestamp.
         readOnly: true
         type: string
       uuid:
-        description: The universally unique identifier for the Grant.
+        description: Grant's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -1854,14 +1854,14 @@ definitions:
       - role_operable_pairs
     properties:
       dry_run:
-        description: Whether the request should be treated as a dry run, meaning that any changes are not persisted.
+        description: Whether request should be treated as a dry run. Changes not persisted.
         type: boolean
         default: false
       operator_uri:
-        description: The URI of the operator that will receive the Grant.
+        description: URI of the operator that receiving the grant.
         type: string
       role_operable_pairs:
-        description: An array of Configuration Type Role URIs and operables.
+        description: Array of configuration type role URIs and operables.
         type: array
         items:
           $ref: '#/definitions/GrantRoleOperablePair'
