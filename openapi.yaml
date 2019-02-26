@@ -1111,12 +1111,12 @@ paths:
           description: Content-Type header format unsupported.
         '422':
           description: |-
-            One of the following situations occurred:
-              - Role Assignment specified by `operable_uri`, `operator_uri`, and `role_uri` already exist.
-              - One or all of `operable_uri`, `operator_uri`, and `role_uri` parameters were missing or invalid.
+            One of the following occurred:
+              - Role assignment specified by `operable_uri`, `operator_uri`, and `role_uri` exist.
+              - One or all of `operable_uri`, `operator_uri`, and `role_uri` parameters missing or invalid.
       parameters:
         - name: role_assignment
-          description: Values used to create the new Role Assignment.
+          description: Used to create new role assignment.
           in: body
           required: true
           schema:
@@ -1139,7 +1139,7 @@ paths:
         '406':
           description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
     put:
@@ -1158,15 +1158,15 @@ paths:
           description: Content-Type header format unsupported.
         '422':
           description: |-
-            One of the following situations occurred:
-              - The `status` parameter was missing or invalid.
-              - Unpermitted attributes (any attribute other than `status`) were passed.
+            One of the following occurred:
+              - `status` parameter missing or invalid.
+              - Unpermitted attributes - any attribute other than `status` - passed in call.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: status
           description: |-
-            The status of the Role Assignment, which must be a valid status as defined in iMedidata;
-            for example, `invitation_declined`, `access_granted`, `activation_pending`, etc.
+            Role assignment status must valid, as defined in iMedidata. 
+            For example, `invitation_declined`, `access_granted`, or `activation_pending`, and so on.
           in: query
           required: true
           type: string
@@ -1175,28 +1175,28 @@ paths:
       operationId: role_assignments.destroy
       responses:
         '202':
-          description: The Role Assignment was successfully deleted.
+          description: Role assignment deleted.
         '403':
-          description: The Role Assignment cannot be deleted using the API, as the `read-only` attribute is set to true.
+          description: Cannot delete role assignment using the API since `read-only` attribute is set to true.
         '404':
-          description: Not found. Role Assignment unrecognized or authorization failed.
+          description: Not found. Role asssignment unrecognized or authorization failed.
         '406':
           description: Accept header format unsupported.
         '409':
           description: |-
-            Cannot delete a Role Assignment with a prohibition that will expose a conflict with an
+            Cannot delete a role assignment with a prohibition that exposes a conflict with an
             app that validates incompatibility across all operables.
         '415':
           description: Content-Type header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
         - name: without_delay
           description: |-
-            Whether the Role Assignment should be deleted instantly or after some delay.
-            A delayed delete can only be performed if there are no app permissions in the role,
-            otherwise a conflict could occur.
+            Whether the role assignment should be deleted instantly or after a delay.
+            You can only perform a delayed delete when there are no app permissions in the role,
+            otherwise a conflict occurs.
           in: query
           required: false
           type: boolean
@@ -1233,7 +1233,7 @@ paths:
         '406':
           description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
