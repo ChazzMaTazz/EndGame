@@ -66,7 +66,7 @@ paths:
           description: Unprocessable entity. `operable_type` missing or `access_type` not set to `allow`.
       parameters:
         - name: access_control_list
-          description: New access control list title.
+          description: New access control list properties.
           in: body
           required: true
           schema:
@@ -132,7 +132,7 @@ paths:
               - `traversal_attributes` do not contain required keys from the associated attribute collection template.
       parameters:
         - name: attribute_collection
-          description: New attribute collection title.
+          description: New attribute collection properties.
           in: body
           required: true
           schema:
@@ -322,7 +322,7 @@ paths:
         '406':
           description: Accept header format unsupported.
         '409':
-          description: Cannot delete a configuration type with roles already in role assignments.
+          description: Cannot delete a configuration type with roles assigned in role assignments.
         '415':
           description: Content-Type header format unsupported.
       parameters:
@@ -374,12 +374,16 @@ paths:
           required: false
           type: string
         - name: permission
-          description: Include in the permissions array for any returned configuration type roles.
+          description: |-
+             If you include the `permission` parameter in a request, it filters the returned roles to just those 
+             roles with that permission.
           in: query
           required: false
           type: string
         - name: tag
-          description: Include in the array of tags for any returned configuration type roles.
+          description: |-
+             If you include the `tag` parameter in a request, it filters the returned roles to just those 
+             roles with that tag.
           in: query
           required: false
           type: string
@@ -416,7 +420,9 @@ paths:
           required: true
           type: string
         - name: configuration_type_role
-          description: Title of the configuration type role.
+          description: |-
+             If you include the `configuration_type_role` parameter in a request, it filters the returned roles to just those 
+             roles with that configuration type role.
           in: body
           required: true
           schema:
@@ -1858,7 +1864,7 @@ definitions:
         type: boolean
         default: false
       operator_uri:
-        description: URI of the operator that receiving the grant.
+        description: URI of the operator receiving the grant.
         type: string
       role_operable_pairs:
         description: Array of configuration type role URIs and operables.
@@ -1867,12 +1873,12 @@ definitions:
           $ref: '#/definitions/GrantRoleOperablePair'
       reason_uri:
         description: |-
-          The URI of an external resource that is responsible for the Grant. If provided, it is globally unique;
-          a request with a duplicate reason_uri will overwrite the matching Grant.
+          External resource's URI that is responsible for the grant. If provided, it is globally unique.
+          Requests with a duplicate `reason_uri` overwrite the matching grant.
         type: string
       skip_incompatibility_check:
         type: boolean
-        description: Whether or not to validate the compatibility of the `role_operable_pairs`.
+        description: Whether to validate `role_operable_pairs` compatibility.
         default: false
     example:
       {
@@ -1891,10 +1897,10 @@ definitions:
     type: object
     properties:
       configuration_type_role_uri:
-        description: The URI for the Configuration Type Role; for example, `com:mdsol:configuration_type_roles:<uuid>`.
+        description: Configuration type role's URI. For example, `com:mdsol:configuration_type_roles:<uuid>`.
         type: string
       operable_uri:
-        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        description: Operable's URI. For example, `com:mdsol:studies:<uuid>`.
         type: string
     example:
       {
@@ -1910,7 +1916,7 @@ definitions:
     properties:
       skip_incompatibility_check:
         type: boolean
-        description: Whether or not to validate the compatibility of the `role_operable_pairs`.
+        description: Whether to validate `role_operable_pairs` compatibility.
         default: false
       grants:
         type: array
