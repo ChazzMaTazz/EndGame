@@ -7,7 +7,7 @@ info:
   contact:
     name: The Authorization Development Team
     email: team04@mdsol.com
-  version: v1.4.3
+  version: v1.4.4
 basePath: /v1
 schemes:
   - https
