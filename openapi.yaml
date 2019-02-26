@@ -1945,16 +1945,16 @@ definitions:
     properties:
       operation:
         description: |-
-          Object identifier for the operation, for example, `lock`, `unlock`.
-          By convention, this can include the name of the relevant resource; for example, `lock_studies`.
-          The operation string should be lowercase and underscore-delimited.
+          Operation's object identifier (OID) for the operation. For example, `lock` or `unlock`.
+          By convention, the OID includes the name of the resource; for example, `lock_studies`.
+          Make the operation string lowercase and underscore-delimited.
         type: string
       protected_resource_type:
-        description: Deprecated - Identifier denoting the class of the Protected Resource Type; default `no_type`.
+        description: **Deprecated** - Identifier denoting the class of the protected resource type; default `no_type`.
         # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         type: string
       uuid:
-        description: The universally unique identifier for the Permission.
+        description: Permission's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -1972,12 +1972,12 @@ definitions:
     properties:
       operation:
         description: |-
-          Object identifier for the operation; for example, `lock`, `unlock`.
-          By convention, this can include the name of the relevant resource; for example, `lock_studies`.
-          The operation string should be lowercase and underscore-delimited.
+          Operation's object identifier (OID). For example, `lock` or `unlock`.
+          By convention, the OID includes the name of the resource; for example, `lock_studies`.
+          Make the operation string lowercase and underscore-delimited.
         type: string
       protected_resource_type:
-        description: Deprecated - Identifier denoting the class of the Protected Resource Type; default `no_type`.
+        description: **Deprecated** - Identifier denoting the class of the protected resource type; default `no_type`.
         # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         type: string
     example:
@@ -1992,13 +1992,13 @@ definitions:
     type: object
     properties:
       operable_uri:
-        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        description: Operable's URI; for example, `com:mdsol:studies:<uuid>`.
         type: string
       operation:
-        description: Object identifier for the operation.
+        description: Operation's object identifier.
         type: string
       operator_uri:
-        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        description: Operator's URI; for example, `com:mdsol:users:<uuid>`.
         type: string
     example:
       {
@@ -2013,11 +2013,11 @@ definitions:
     type: object
     properties:
       oid:
-        description: Object identifier for the resource; for example, `study-sites`.
+        description: Resource's object identifier; for example, `study-sites`.
         type: string
       members:
         description: |-
-          Object identifiers for protected resource types that externally-defined descendants. For example,
+          Object identifiers for protected resource types of externally defined descendants. For example,
           study environment sites are members of study environment site groups.
         type: array
         items:
@@ -2025,8 +2025,8 @@ definitions:
           format: uuid
       parents:
         description: |-
-          Object identifiers for protected resource types that the resource considers itself a child;
-          for example, `studies` and `sites` for `study-sites`.
+          Object identifiers for protected resource types of which the resource is a child.
+          For example, `studies` and `sites` for `study-sites`.
         type: array
         items:
           type: string
@@ -2064,15 +2064,15 @@ definitions:
         type: string
       status:
         description: |-
-          Role assignment's status, drawn from iMedidata; for example,
+          Role assignment's status, drawn from iMedidata. For example,
           `invitation_declined`, `access_granted`, or `activation_pending`, and so on.
         type: string
       created_at:
-        description: Timestamp when role assignment was created.
+        description: Role assignment's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp when role assignment was last updated.
+        description: Role assignment's last updated timestamp.
         readOnly: true
         type: string
       uuid:
@@ -2108,10 +2108,10 @@ definitions:
         description: Configuration type role's URI.
         type: string
       read_only:
-        description: Whether or not the role assignment can be modified by way of the API.
+        description: Whether the role assignment can be modified by way of the API.
         type: string
       status:
-        description: Role assignment status.
+        description: Role assignment's status.
         type: string
     example:
       {
@@ -2128,19 +2128,19 @@ definitions:
       - oid
     properties:
       oid:
-        description: Object identifier for the resource; for example, `study_auditor`.
+        description: Resource's object identifier; for example, `study_auditor`.
         type: string
       uuid:
-        description: The universally unique identifier for the standard role.
+        description: Standard role's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
       created_at:
-        description: Timestamp from the creation of the standard role.
+        description: Standard role's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the standard role was updated.
+        description: Standard role's last updated timestamp.
         readOnly: true
         type: string
     example:
