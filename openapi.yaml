@@ -1264,7 +1264,7 @@ parameters:
 
   includeCount:
     name: include_count
-    description: Whether or not to include the total count of result entities in the `Mcc-Total-Items` header.
+    description: Whether to include the total count of result entities in the `Mcc-Total-Items` header.
     in: query
     required: false
     type: boolean
@@ -1272,14 +1272,14 @@ parameters:
 
   operatorUri:
     name: operator_uri
-    description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+    description: Operator's URI; for example, `com:mdsol:users:<uuid>`.
     in: query
     required: false
     type: string
 
   uuid:
     name: uuid
-    description: The resource's universally unique identifier.
+    description: Resource's universally unique identifier.
     in: path
     required: true
     type: string
@@ -1291,22 +1291,22 @@ definitions:
     type: object
     properties:
       access_type:
-        description: The type of access that access controls should imply to the operable type.
+        description: Access type that access controls should imply for the operable type.
         type: string
       operable_type:
         description: |-
-          The operable type corresponding to the access controls in this Access Control List.
-          This may be any Protected Resource Type or the following virtual types:
-          `unblinded_study_environments`, `balance_study_environment_sites`.
+          The operable type corresponding to the access controls in the access control list.
+          Can be any protected resource type or the following virtual types:
+          `unblinded_study_environments` or `balance_study_environment_sites`.
         type: string
       s3_bucket_name:
-        description: The Amazon S3 Bucket name where the access controls for this Access Control List are stored.
+        description: Name of the Amazon S3 bucket storing the access controls for the access control list.
         type: string
       s3_prefix:
-        description: The location on Amazon S3 where the access controls for this Access Control List are stored.
+        description: Location of the Amazon S3 storing the access controls for the access control list.
         type: string
       status:
-        description: The processing status of the Access Control List.
+        description: Access control list's processing status.
         type: string
         enum:
           - finished
@@ -1314,10 +1314,10 @@ definitions:
           - processing
           - failed
       tag:
-        description: The all_access_for_roles_tagged attribute for all-access access control lists.
+        description: `all_access_for_roles_tagged` attribute for all-access access control lists.
         type: string
       uuid:
-        description: The universally unique identifier for the Access Control List.
+        description: Access control list's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -1339,17 +1339,17 @@ definitions:
       - operable_type
     properties:
       access_type:
-        description: Type of access that access controls should imply to the operable type for the Access Control List.
+        description: Access type that access controls should imply for the operable type.
         type: string
         default: allow
       all_access_for_roles_tagged:
-        description: The tag of the role that must exist for all users in the user-operable pairs.
+        description: Tag of the role that must exist for all users in user-operable pairs.
         type: string
       operable_type:
         description: |-
-          The operable type corresponding to the access controls in this Access Control List.
-          This may be any protected resource type or the following virtual types:
-          `unblinded_study_environments`, `balance_study_environment_sites`.
+          The operable type corresponding to the access controls in the access control list.
+          Can be any protected resource type or the following virtual types:
+          `unblinded_study_environments` or `balance_study_environment_sites`.
         type: string
     example:
       {
@@ -1364,24 +1364,24 @@ definitions:
     type: object
     properties:
       uuid:
-        description: The universally unique identifier for the Attribute Collection.
+        description: Attribute collection's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
       attribute_collection_template_oid:
-        description: The object identifier for the associated Attribute Collection Template.
+        description: Associated attribute collection template's object identifier.
         type: string
       traversal_attributes:
-        description: A hash of attributes to be included in the traversal query during execution.
+        description: Hash of attributes included in the traversal query during execution.
         type: object
         additionalProperties:
           type: string
       created_at:
-        description: Timestamp from the creation of the Attribute Collection.
+        description: Attribute collection's creation timestamp.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the Attribute Collection was updated.
+        description: Attribute collection's last update timestamp.
         readOnly: true
         type: string
     example:
@@ -1400,10 +1400,10 @@ definitions:
     type: object
     properties:
       attribute_collection_template_oid:
-        description: Object identifier of the associated Attribute Collection Template.
+        description: Associated attribute collection template's object identifier.
         type: string
       traversal_attributes:
-        description: A hash of attributes to be included in the traversal query during execution.
+        description: Hash of attributes included in the traversal query during execution.
         type: object
         additionalProperties:
           type: string
@@ -1422,31 +1422,31 @@ definitions:
     type: object
     properties:
       uuid:
-        description: The universally unique identifier for the Configuration Type.
+        description: Configuration type's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
       client_division_uuid:
-        description: The universally unique identifier for the parent Client Division.
+        description: Parent client division's universally unique identifier.
         type: string
         format: uuid
       configuration_type_uuids:
-        description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
+        description: Array of configuration type identifiers accessible for the requested configuration type.
         type: array
         items:
           type: string
           format: uuid
       created_at:
-        description: Timestamp from the creation of the Configuration Type.
+        description: Configuration type's creation timestamp.
         readOnly: true
         type: string
       name:
-        description: Name describing the Configuration Type.
+        description: Configuration type's name.
         type: string
       parent_uri:
         description: |-
-          The URI of the object which is the parent of the Configuration Type. Must be a URI for a
-          Client Division Scheme or App; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
+          URI of the configuration type's parent object. Must be a URI for a
+          client division scheme or app; for example, `com:mdsol:apps:01e3339a-52b5-49ed-9040-2b146ea2e4b6`.
         type: string
     example:
       {
@@ -1466,7 +1466,7 @@ definitions:
       - name
     properties:
       name:
-        description: Name describing the Configuration Type.
+        description: Configuration type's name.
         type: string
       configuration_type_uuids:
         description: An array of Configuration Type identifiers that are accessible for this Configuration Type.
