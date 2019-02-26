@@ -638,7 +638,7 @@ paths:
       parameters:
         - $ref: '#/parameters/uuid'
         - name: conflicting_roles_set
-          description: Values to modify the existing conflicting roles set.
+          description: Values to modify the conflicting roles set.
           in: body
           required: true
           schema:
@@ -677,7 +677,7 @@ paths:
         '404':
           description: |-
             Authorization failed. Requester missing a required privilege.
-            Or the `operator_uri`, or `role_operable_pairs` unrecognized.
+            Or the `operator_uri` or `role_operable_pairs` unrecognized.
         '406':
           description: Accept header format unsupported.
         '409':
@@ -898,7 +898,7 @@ paths:
     get:
       summary: Get All Privileges
       description: |-
-        List privilege resources depending on the parameters passed. Supports the following cases:
+        List privilege resources depending on the parameters passed. Supports the following:
           - Privileges for specific operators:
             - Set the `operator_uri` and `operation` parameters.
             - `operable_type` parameter can be optionally set.
@@ -922,34 +922,34 @@ paths:
         '422':
           description: |-
             Certain parameters missing or invalid URI. See the operation description
-            for the required pair of parameters that you need pass together.
+            for the required pair of parameters that you to need pass together.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
         - $ref: '#/parameters/operatorUri'
         - name: ignore_prohibitions
-          description: Whether prohibited Privileges should be included in the result.
+          description: Whether to include prohibited privileges in result.
           in: query
           required: false
           type: boolean
         - name: operable_type
-          description: The resource being checked for permissions.
+          description: Resource being checked for permissions.
           in: query
           required: false
           type: string
         - name: operable_uri
-          description: The operable, that is, the clinicial resource or collection URI; for example, `com:mdsol:studies:<uuid>`.
+          description: Operable; that is, the clinicial resource or collection URI. For example, `com:mdsol:studies:<uuid>`.
           in: query
           required: false
           type: string
         - name: operation
-          description: Used to bulk-get permissions between operator and operable_type.
+          description: Used to bulk-get permissions between `operator` and `operable_type`.
           in: query
           required: false
           type: string
         - name: configuration_type_role_uri
-          description: The Configuration Type Role URI from which the privileges must be derived.
+          description: Configuration type role URI from which the privileges must be derived.
           in: query
           required: false
           type: string
@@ -967,9 +967,10 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Requester does not have proper permissions, or `operable_uri` and/or `operator` is unrecognized.
+          description: Not found. Requester does not have proper permissions. 
+          Or `operable_uri` or `operator` unrecognized.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '422':
           description: Parameters `operable_uri` or `operator_uri` were missing or not a valid URI.
       parameters:
