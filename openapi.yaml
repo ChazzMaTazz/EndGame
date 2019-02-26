@@ -922,7 +922,7 @@ paths:
         '422':
           description: |-
             Certain parameters missing or invalid URI. See the operation description
-            for the required pair of parameters that you to need pass together.
+            for the required pair of parameters that you need to pass together.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
@@ -944,12 +944,12 @@ paths:
           required: false
           type: string
         - name: operation
-          description: Used to bulk-get permissions between `operator` and `operable_type`.
+          description: Used to bulk-GET permissions between `operator` and `operable_type`.
           in: query
           required: false
           type: string
         - name: configuration_type_role_uri
-          description: Configuration type role URI from which the privileges must be derived.
+          description: Configuration type role's URI from which the privileges is derived.
           in: query
           required: false
           type: string
@@ -967,31 +967,31 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Not found. Not found. Requester does not have proper permissions. 
+          description: Not found. Requester does not have proper permissions. 
           Or `operable_uri` or `operator` unrecognized.
         '406':
           description: Accept header format unsupported.
         '422':
-          description: Parameters `operable_uri` or `operator_uri` were missing or not a valid URI.
+          description: Parameters `operable_uri` or `operator_uri` missing or invalid URI.
       parameters:
         - $ref: '#/parameters/operatorUri'
         - name: operable_uri
-          description: The operable, that is, the clinicial resource or collection URI; for example, `com:mdsol:studies:<uuid>`.
+          description: Operable; the clinicial resource or collection URI. For example, `com:mdsol:studies:<uuid>`.
           in: query
           required: true
           type: string
         - name: operation
-          description: Object identifier of the operation; for example, `read` or `randomize`.
+          description: Operation's object identifier. For example, `read` or `randomize`.
           in: query
           required: true
           type: string
         - name: configuration_type_role_uri
-          description: The Configuration Type Role URI from which the Privilege must be derived from.
+          description: Configuration type role's URI from which the privilege is derived.
           in: query
           required: false
           type: string
         - name: ignore_prohibitions
-          description: Whether prohibited privileges should be included in the result.
+          description: Whether to include prohibited privileges in result.
           in: query
           required: false
           type: boolean
@@ -1015,7 +1015,7 @@ paths:
         '406':
           description: Accept header unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
@@ -1027,7 +1027,7 @@ paths:
           type: string
         - name: parent
           description: |-
-            Protected Resource Type results will contain the specified Object identifier among their parents.
+            Protected resource type results will contain the specified object identifier among their parents.
           in: query
           required: false
           type: string
@@ -1047,9 +1047,9 @@ paths:
         '404':
           description: Not found. Protected resource type not found or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/uuid'
 
@@ -1068,29 +1068,29 @@ paths:
             items:
               $ref: '#/definitions/RoleAssignment'
         '404':
-          description: Not found. Requester does not have permission to view role assignments.
+          description: Not found. Requester does not allowed to view role assignments.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
-          description: Fatal error in the server.
+          description: Internal server error.
       parameters:
         - $ref: '#/parameters/includeCount'
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/perPage'
         - $ref: '#/parameters/operatorUri'
         - name: operable_uri
-          description: The operable, that is, the clinicial resource or collection URI; for example, 'com:mdsol:studies:<uuid>'.
+          description: Operable; that is, the clinicial resource or collection URI. For example, 'com:mdsol:studies:<uuid>'.
           in: query
           required: false
           type: string
         - name: role_uri
-          description: The Configuration Type Role URI.
+          description: Configuration type role's URI.
           in: query
           required: false
           type: string
     post:
       summary: Create a New Role Assignment
-      description: Create a Role Assignment resource granting an operator access to an operable with a specific role.
+      description: Create a role assignment resource granting an operator access to an operable with a specific role.
       operationId: role_assignments.create
       responses:
         '201':
@@ -1105,10 +1105,10 @@ paths:
           description: Accept header format unsupported.
         '409':
           description: |-
-            The Configuration Type Role specified in the `role_uri` parameter is incompatible with
-            another Configuration Type Role assigned to the `operator_uri`.
+            Configuration type role specified in the `role_uri` parameter incompatible with
+            another configuration type role assigned to the `operator_uri`.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
@@ -1137,7 +1137,7 @@ paths:
         '404':
           description: Not found. Role assignment unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
           description: Fatal error in the server.
       parameters:
@@ -1153,9 +1153,9 @@ paths:
         '404':
           description: Not found. Role assignment unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '422':
           description: |-
             One of the following situations occurred:
@@ -1181,13 +1181,13 @@ paths:
         '404':
           description: Not found. Role Assignment unrecognized or authorization failed.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '409':
           description: |-
             Cannot delete a Role Assignment with a prohibition that will expose a conflict with an
             app that validates incompatibility across all operables.
         '415':
-          description: Included Content-Type header is not a supported format.
+          description: Content-Type header format unsupported.
         '500':
           description: Fatal error in the server.
       parameters:
@@ -1231,7 +1231,7 @@ paths:
         '404':
           description: Not found. Requester unauthorized.
         '406':
-          description: Included Accept header is not a supported format.
+          description: Accept header format unsupported.
         '500':
           description: Fatal error in the server.
       parameters:
@@ -1242,7 +1242,7 @@ paths:
           in: query
           required: false
           type: string
-          description: Object identifier for the resource; for example, `study_auditor`.
+          description: Resource's object identifier. For example, `study_auditor`.
 
 parameters:
   page:
@@ -1279,7 +1279,7 @@ parameters:
 
   uuid:
     name: uuid
-    description: The [UUID](https://learn.mdsol.com/display/MCCSERVICESprd/Conventions+and+Keywords#ConventionsandKeywords-UniversallyUniqueIdentifiers) for the resource.
+    description: The resource's universally unique identifier.
     in: path
     required: true
     type: string
