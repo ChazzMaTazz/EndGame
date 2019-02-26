@@ -2025,7 +2025,7 @@ definitions:
         items:
           type: string
       uuid:
-        description: The universally unique identifier for the Protected Resource Type.
+        description: Protected resource type's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
@@ -2045,32 +2045,32 @@ definitions:
     type: object
     properties:
       operable_uri:
-        description: The operable URI; for example, `com:mdsol:studies:<uuid>`.
+        description: Operable's URI; for example, `com:mdsol:studies:<uuid>`.
         type: string
       operator_uri:
-        description: The operator URI; for example, `com:mdsol:users:<uuid>`.
+        description: Operator's URI; for example, `com:mdsol:users:<uuid>`.
         type: string
       read_only:
-        description: Whether or not the Role Assignment can be modified by way of the API.
+        description: Whether the role assignment can be modified by way of the API.
         type: boolean
       role_uri:
-        description: The Configuration Type Role URI.
+        description: The configuration type role's URI.
         type: string
       status:
         description: |-
-          The status of the Role Assignment, drawn from iMedidata; for example,
-          `invitation_declined`, `access_granted`, `activation_pending`, etc.
+          Role assignment's status, drawn from iMedidata; for example,
+          `invitation_declined`, `access_granted`, or `activation_pending`, and so on.
         type: string
       created_at:
-        description: Timestamp from the creation of the Role Assignment.
+        description: Timestamp when role assignment was created.
         readOnly: true
         type: string
       updated_at:
-        description: Timestamp for the last time the Role Assignment was updated.
+        description: Timestamp when role assignment was last updated.
         readOnly: true
         type: string
       uuid:
-        description: The universally unique identifier for the Role Assignment.
+        description: Role assignment's universally unique identifier.
         readOnly: true
         type: string
         format: uuid
