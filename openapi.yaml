@@ -1,4 +1,4 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Authorization Data for the Medidata Platform
   description: |-
@@ -212,19 +212,17 @@ paths:
           in: query
           required: false
           type: string
-          description: **Deprecated**. Use `parent_uri`.
+          description: Deprecated. Use `parent_uri`.
           # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         - name: parent_uri
           in: query
           required: false
           type: string
           description: |-
-            Filters configuration types associated with resource specified in the form of
-            [MDSOL URI](https://learn.mdsol.com/display/MCCSERVICESprd/Conventions+and+Keywords#ConventionsandKeywords-UniversallyUniqueIdentifiers).
-            client division schemes or apps are the only valid resource types. For example, a valid client division
-            scheme resource type's MDSOL URI looks like
-            `com:mdsol:client_division_schemes:<client_division_scheme_uuid>`. Required if
-            `client_division_uuid` not provided.
+            Filters configuration types associated with resource specified in the form of MDSOL URI.
+            Client division schemes or apps are the only valid resource types. For example, a valid client division
+            scheme resource type's MDSOL URI looks like `com:mdsol:client_division_schemes:<client_division_scheme_uuid>`. 
+            Required if `client_division_uuid` not provided.
     post:
       summary: Create a New Configuration Type
       description: Create a new configuration type for a particular `parent_uri`.
@@ -421,8 +419,8 @@ paths:
           type: string
         - name: configuration_type_role
           description: |-
-             If you include the `configuration_type_role` parameter in a request, it filters the returned roles to just those 
-             roles with that configuration type role.
+             If you include the `configuration_type_role` parameter in a request, it filters the returned roles 
+             to just those roles with that configuration type role.
           in: body
           required: true
           schema:
@@ -973,8 +971,7 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Not found. Requester does not have proper permissions. 
-          Or `operable_uri` or `operator` unrecognized.
+          description: Not found. Requester does not have proper permissions. Or `operable_uri` or `operator` unrecognized.
         '406':
           description: Accept header format unsupported.
         '422':
@@ -1320,7 +1317,9 @@ definitions:
           - processing
           - failed
       tag:
-        description: `all_access_for_roles_tagged` attribute for all-access access control lists.
+        description: |-
+          `all_access_for_roles_tagged` attribute for 
+          all-access access control lists.
         type: string
       uuid:
         description: Access control list's universally unique identifier.
@@ -1950,7 +1949,7 @@ definitions:
           Make the operation string lowercase and underscore-delimited.
         type: string
       protected_resource_type:
-        description: **Deprecated** - Identifier denoting the class of the protected resource type; default `no_type`.
+        description: Deprecated - Identifier denoting the class of the protected resource type; default `no_type`.
         # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         type: string
       uuid:
@@ -1977,7 +1976,7 @@ definitions:
           Make the operation string lowercase and underscore-delimited.
         type: string
       protected_resource_type:
-        description: **Deprecated** - Identifier denoting the class of the protected resource type; default `no_type`.
+        description: Deprecated - Identifier denoting the class of the protected resource type; default `no_type`.
         # TODO: Add 'deprecated: true' when we begin using V3 of the OpenAPI specification
         type: string
     example:
