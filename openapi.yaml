@@ -7,7 +7,7 @@ info:
   contact:
     name: The Authorization Development Team
     email: team04@mdsol.com
-  version: v1.4.4
+  version: v1.4.5
 basePath: /v1
 schemes:
   - https
@@ -799,7 +799,7 @@ paths:
         '415':
           description: Content-Type header format unsupported.
         '500':
-          description: internal server error.
+          description: Internal server error.
       parameters:
         - name: reason_uri
           description: Reason Grant should exist. Specified as URI.
@@ -1318,7 +1318,7 @@ definitions:
           - failed
       tag:
         description: |-
-          `all_access_for_roles_tagged` attribute for 
+          The `all_access_for_roles_tagged` attribute for 
           all-access access control lists.
         type: string
       uuid:
