@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  title: Authorization Data for the Medidata Platform
+  title: Authorization Service for the Medidata Platform
   description: |-
     The authorization process enables Medidata Clinical Cloud (MCC) access control and
     authorization of MCC resources.
@@ -234,7 +234,7 @@ paths:
             $ref: '#/definitions/ConfigurationType'
         '404':
           description: |-
-            Not found. Requester unauthorized to create configuration types for the specified client division
+            Not found. Requester unauthorized to create configuration types for the specified client division scheme
             or the specified configuration type UUIDs not found.
         '406':
           description: Accept header format unsupported.
@@ -245,8 +245,8 @@ paths:
             One of the following situations occurred:
               - Required `name` parameter not provided.
               - Invalid parameter values provided. For example, `configuration_type_uuids` not an array.
-              - Name is not unique within the client division or exceeds 100 characters.
-              - Specified client division unrecognized.
+              - Name is not unique within the client division scheme or exceeds 100 characters.
+              - Specified client division scheme unrecognized.
       parameters:
         - name: configuration_type
           description: New configuration type title.
@@ -298,7 +298,7 @@ paths:
           description: |-
             One of the following situations occurred:
               - Attempted to change read-only attributes. For example, `created_at`.
-              - Name not unique within the client division or exceeds 100 characters.
+              - Name not unique within the client division scheme or exceeds 100 characters.
               - `configuration_type_uuids` cannot include the configuration type being updated.
               - `configuration_type_uuids` cannot result in a cycle.
       parameters:
@@ -419,8 +419,7 @@ paths:
           type: string
         - name: configuration_type_role
           description: |-
-             If you include the `configuration_type_role` parameter in a request, it filters the returned roles 
-             to just those roles with that configuration type role.
+             Used to create the new configuration type role.
           in: body
           required: true
           schema:
@@ -705,7 +704,7 @@ paths:
           schema:
             $ref: '#/definitions/BulkGrantRequest'
         - name: dry_run
-          description: Whether to treat request as a dry run; that is, changes not persisted.
+          description: Whether to treat request as a dry run; that is, do not persist changes.
           in: query
           required: false
           type: boolean
@@ -953,7 +952,7 @@ paths:
           required: false
           type: string
         - name: configuration_type_role_uri
-          description: Configuration type role's URI from which the privileges is derived.
+          description: Configuration type role's URI from which the privileges are derived.
           in: query
           required: false
           type: string
@@ -971,7 +970,8 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Not found. Requester does not have proper permissions. Or `operable_uri` or `operator` unrecognized.
+          description: Not found. Requester does not have proper permissions, or `operable_uri` or `operator`
+          unrecognized.
         '406':
           description: Accept header format unsupported.
         '422':
@@ -979,7 +979,7 @@ paths:
       parameters:
         - $ref: '#/parameters/operatorUri'
         - name: operable_uri
-          description: Operable; the clinicial resource or collection URI. For example, `com:mdsol:studies:<uuid>`.
+          description: The clinicial resource or collection URI. For example, `com:mdsol:studies:<uuid>`.
           in: query
           required: true
           type: string
@@ -1082,7 +1082,7 @@ paths:
         - $ref: '#/parameters/perPage'
         - $ref: '#/parameters/operatorUri'
         - name: operable_uri
-          description: Operable; that is, the clinicial resource or collection URI. For example, 'com:mdsol:studies:<uuid>'.
+          description: The clinicial resource or collection URI. For example, 'com:mdsol:studies:<uuid>'.
           in: query
           required: false
           type: string
@@ -1168,7 +1168,7 @@ paths:
         - $ref: '#/parameters/uuid'
         - name: status
           description: |-
-            Role assignment status must valid, as defined in iMedidata. 
+            Role assignment status must be valid, as defined in iMedidata. 
             For example, `invitation_declined`, `access_granted`, or `activation_pending`, and so on.
           in: query
           required: true
@@ -1532,7 +1532,7 @@ definitions:
         type: string
         format: uuid
       name:
-        description: Configuration type role's name describing, unique within a configuration type.
+        description: Configuration type role's name, unique within a configuration type.
         type: string
         maximum: 255
       permissions:
