@@ -7,7 +7,7 @@ info:
   contact:
     name: The Authorization Development Team
     email: team04@mdsol.com
-  version: v1.4.5
+  version: v1.4.6
 basePath: /v1
 schemes:
   - https
@@ -970,8 +970,8 @@ paths:
           schema:
             $ref: '#/definitions/Privilege'
         '404':
-          description: Not found. Requester does not have proper permissions, or `operable_uri` or `operator`
-          unrecognized.
+          description: |-
+             Not found. Requester does not have proper permissions, or `operable_uri` or `operator` unrecognized.
         '406':
           description: Accept header format unsupported.
         '422':
