@@ -1,0 +1,49 @@
+<p>
+  <ac:structured-macro ac:macro-id="6a34d1fc-eb01-4151-bf69-eebbc53cd62f" ac:name="anchor" ac:schema-version="1">
+    <ac:parameter ac:name="">Top_of_page</ac:parameter>
+  </ac:structured-macro>Medidata controls data security using authentication and authorization.</p>
+<ul>
+  <li data-uuid="d2f412d6-c0c2-40c0-a596-8231bfed4664">
+    <p>Authentication identifies users and applications.</p>
+  </li>
+  <li data-uuid="74cb28f7-5e85-4416-b2d2-1583e1b2f63f">
+    <p>Authorization determines what authenticated users or applications can do in the platform when they have access to the data or workflow.</p>
+  </li>
+</ul>
+<p>The Medidata platform links but keeps distinct authorization and authentication. Medidata APIs implement security logic locally; that is, the platform does NOT defer the processes to the client.</p>
+<p>
+  <ac:structured-macro ac:macro-id="bbc5131d-d6b1-4163-a509-eb97246a76ce" ac:name="toc" ac:schema-version="1">
+    <ac:parameter ac:name="style">square</ac:parameter>
+  </ac:structured-macro>
+</p>
+<h1>HTTPS Security</h1>
+<p>Medidata API services only accept HTTPS TLS v1.2 connections or above.<ac:structured-macro ac:macro-id="83070ec1-bcf3-4410-a8b7-ec728f3b044a" ac:name="anchor" ac:schema-version="1">
+    <ac:parameter ac:name="">_authenticate</ac:parameter>
+  </ac:structured-macro>
+</p>
+<p>Medidata systems authenticate all requests using the <ac:link ac:tooltip="Service Authentication with mAuth">
+    <ri:page ri:content-title="Service Authentication with mAuth" ri:space-key="CLINICALCLOUDAPIprd"/>
+    <ac:plain-text-link-body><![CDATA[Medidata authentication protocol]]></ac:plain-text-link-body>
+  </ac:link> on top of HTTPS. The easiest way to authenticate API requests is by way of the <ac:link ac:tooltip="Authentication Client Software">
+    <ri:page ri:content-title="Authentication Client Software" ri:space-key="CLINICALCLOUDAPIprd"/>
+    <ac:plain-text-link-body><![CDATA[authentication clients]]></ac:plain-text-link-body>
+  </ac:link> that Medidata offers.<ac:structured-macro ac:macro-id="8fea2435-f4cc-4bcd-9ed5-c9f479cfc2aa" ac:name="anchor" ac:schema-version="1">
+    <ac:parameter ac:name="">_client</ac:parameter>
+  </ac:structured-macro>
+</p>
+<h1>Set Up the Client</h1>
+<ac:structured-macro ac:macro-id="68c32b8c-f8e1-40b8-ad07-503f7344be03" ac:name="note" ac:schema-version="1">
+  <ac:rich-text-body>
+    <p>
+      <strong>Important:</strong> If you use mAuth to authenticate Rave Web Services requests, you must use mAuth v1. Reach out to your Medidata representative for more information.</p>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p class="auto-cursor-target">
+  <ac:structured-macro ac:macro-id="5296e3e6-06e9-49c5-8a8f-f75175bfec11" ac:name="include" ac:schema-version="1">
+    <ac:parameter ac:name="">
+      <ac:link>
+        <ri:page ri:content-title="Set Up mAuth Client" ri:space-key="GIprdENG"/>
+      </ac:link>
+    </ac:parameter>
+  </ac:structured-macro>
+</p>
